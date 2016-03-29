@@ -5,54 +5,68 @@
 # http://arxiv.org/ftp/arxiv/papers/1506/1506.04891.pdf
 
 
-import os, re, sys, json, unicodedata
+import os, re, sys, ujson, unicodedata
 from collections import defaultdict, Counter
 from keras.preprocessing.text import Tokenizer
 
 
-def preprop(word):
-    # 141.728 preprocessing replacements
+def preprop(token,greek):
+    # 141.728 preprocessing replacements (words)
     # Replace all quotes to a single one (11500)
-    word = word.replace("‘", '"').replace("’", '"').replace('“', '"').replace('”', '"').replace("'", '"').replace("'",
+    token = token.replace("‘", '"').replace("’", '"').replace('“', '"').replace('”', '"').replace("'", '"').replace("'",
                                                                                                                   '"').replace(
         '"', '"').replace('¨', '"').replace("´", "'").replace("`", "'")
     # Replace apostrophes with standard ones (0)
-    word = word.replace("’", "'").replace("'", "'")
+    token = token.replace("’", "'").replace("'", "'")
     # Replace commas(0)
-    word = word.replace('、', ',').replace('،', ',')
+    token = token.replace('、', ',').replace('،', ',')
     # Replace dashes(2000)
-    word = word.replace('‒', '-').replace('–', '-').replace('—', '-').replace('―', '-')
+    token = token.replace('‒', '-').replace('–', '-').replace('—', '-').replace('―', '-')
     # Replace ellipsis(0)
-    word = word.replace('. . .', '…').replace('...', '…').replace('⋯', '…')
+    token = token.replace('. . .', '…').replace('...', '…').replace('⋯', '…')
     # Normalize according to paper(120.000)
-    word = unicodedata.normalize('NFKD', word)
+    token = unicodedata.normalize('NFKD', token)
     # Remove additional whitespace
-    word = re.sub('\s+', ' ', word).strip()
+    token = re.sub('\s+', ' ', token).strip()
     # Replace numbers with 7
-    re.sub('\d+', '7', word)
-    return word
+    token = re.sub('\d+', '7', token)
+    # If language is greek, change latin token for placeholder (s for convenience)
+    if greek:
+        m=re.match('[a-zA-Z]',token)
+        if m:
+            print(token)
+        token = re.sub('[a-zA-Z]','s',token)
+        if m:
+            print(token)
+
+    return token
 
 
 def main():
     occurenceDict = defaultdict(list)
     with open('data/info.json') as j:
-        info = json.load(j)
+        info = ujson.load(j)
     for problem in os.listdir('data'):
+        greek=False
         if problem.startswith('problem'):
             print(problem)
             probTokList=[]
             path = 'data/' + problem
+            for entry in info:
+                if entry["folder"]==problem:
+                    if entry["language"]=="gr":
+                        greek=True
             for doc in os.listdir(path):
                 docTokList = []
                 with open(path + '/' + doc) as d:
                     text = d.read()
                     probTokList.append(text)
                     for token in text:
-                        procToken=preprop(token)
+                        procToken=preprop(token,greek)
                         docTokList.append(procToken)
                 probTokList.append(' '.join(docTokList))
-            print(probTokList[0])
-            Tokenizer.texts_to_sequences(probTokList)
+            #print(probTokList[0])
+            #Tokenizer.texts_to_sequences(probTokList)
 
 
 
