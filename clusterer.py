@@ -4,27 +4,26 @@
 # https://cs224d.stanford.edu/reports/YaoLeon.pdf
 # http://arxiv.org/ftp/arxiv/papers/1506/1506.04891.pdf
 
-
 import os, re, sys, ujson, unicodedata
-from collections import defaultdict, Counter
-from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.text import Tokenizer, base_filter
+from NNcompare import LSTMcomp
+from itertools import combinations,permutations
 
 
 def preprop(token,greek):
-    # 141.728 preprocessing replacements (words)
-    # Replace all quotes to a single one (11500)
+    # Replace all quotes to a single one
     token = token.replace("‘", '"').replace("’", '"').replace('“', '"').replace('”', '"').replace("'", '"').replace("'",
                                                                                                                   '"').replace(
         '"', '"').replace('¨', '"').replace("´", "'").replace("`", "'")
-    # Replace apostrophes with standard ones (0)
+    # Replace apostrophes with standard ones
     token = token.replace("’", "'").replace("'", "'")
-    # Replace commas(0)
+    # Replace commas
     token = token.replace('、', ',').replace('،', ',')
-    # Replace dashes(2000)
+    # Replace dashes
     token = token.replace('‒', '-').replace('–', '-').replace('—', '-').replace('―', '-')
-    # Replace ellipsis(0)
+    # Replace ellipsis
     token = token.replace('. . .', '…').replace('...', '…').replace('⋯', '…')
-    # Normalize according to paper(120.000)
+    # Normalize according to paper
     token = unicodedata.normalize('NFKD', token)
     # Remove additional whitespace
     token = re.sub('\s+', ' ', token).strip()
@@ -32,18 +31,11 @@ def preprop(token,greek):
     token = re.sub('\d+', '7', token)
     # If language is greek, change latin token for placeholder (s for convenience)
     if greek:
-        m=re.match('[a-zA-Z]',token)
-        if m:
-            print(token)
         token = re.sub('[a-zA-Z]','s',token)
-        if m:
-            print(token)
-
     return token
 
 
 def main():
-    occurenceDict = defaultdict(list)
     with open('data/info.json') as j:
         info = ujson.load(j)
     for problem in os.listdir('data'):
@@ -54,28 +46,51 @@ def main():
             path = 'data/' + problem
             for entry in info:
                 if entry["folder"]==problem:
+                    lang=entry["language"]
                     if entry["language"]=="gr":
                         greek=True
             for doc in os.listdir(path):
                 docTokList = []
                 with open(path + '/' + doc) as d:
-                    text = d.read()
-                    probTokList.append(text)
-                    for token in text:
-                        procToken=preprop(token,greek)
-                        docTokList.append(procToken)
-                probTokList.append(' '.join(docTokList))
-            #print(probTokList[0])
-            #Tokenizer.texts_to_sequences(probTokList)
+                    text = d.readlines()
+                    for sent in text:
+                        sentTokList=[]
+                        for word in sent.split():
+                            for token in word:
+                                procToken=preprop(token,greek)
+                                sentTokList.append(procToken) #Every item of the list is a normalized character
+                        docTokList.append(' '.join(sentTokList))#Every item of the list is a sentence
+                probTokList.append(' '.join(docTokList))#Every item of the list is a document
+            tokenizer=Tokenizer(nb_words=None,filters=base_filter(),lower=True,split=" ")
+            tokenizer.fit_on_texts(probTokList)
+            seqList=tokenizer.texts_to_sequences(probTokList)
+            print(max([max(x) for x in seqList]),lang)
+            docMatrix=tokenizer.sequences_to_matrix(seqList,mode="tfidf")
+            print(len(docMatrix))
+            pairs=combinations(docMatrix,2)
+            print(len([pair for pair in pairs]))
+            for pair in pairs:
+                LSTMcomp(pair)
 
 
 
 
-                        #for i, token in enumerate(' '.join(linesplit)):
-                         #   occurenceDict[token].append(i)
-                          #  token = occurenceDict[token][0]
-                           # docTokList.append(token)
-                #print(docTokList)
+
+
+
+
+
+
+
+            #         for token in text:
+            #             procToken=preprop(token,greek)
+            #             docTokList.append(procToken)
+            #     probTokList.append(' '.join(docTokList))
+            # tokenizer=Tokenizer(nb_words=None, filters=base_filter(),lower=True, split=" ")
+            # tokenizer.fit_on_texts(probTokList)
+            # seqList=tokenizer.texts_to_sequences(probTokList)
+            # print(max([max(x) for x in seqList]),lang)
+            # docMatrix=tokenizer.sequences_to_matrix(seqList,mode="tfidf")
 
 
 if __name__ == '__main__':
