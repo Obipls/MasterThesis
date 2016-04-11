@@ -1,6 +1,6 @@
 # !/usr/bin/env python3.5
 # coding=utf-8
-from keras.models import Graph
+from keras.models import Graph, Sequential
 from keras.layers.core import Dense
 from keras.layers.recurrent import LSTM
 import numpy as np
