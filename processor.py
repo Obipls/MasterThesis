@@ -7,9 +7,10 @@
 import os, re, sys, ujson, unicodedata
 from keras.preprocessing.text import Tokenizer, base_filter
 from NNcompare import LSTMcomp
-from clusterer import cluster_docs
+#from clusterer import cluster_docs
 from itertools import combinations,permutations
 from collections import defaultdict
+from progressbar import ProgressBar,Timer,Bar,ETA
 
 
 def preprop(token,greek):
@@ -66,28 +67,32 @@ def main():
                         docTokList.append(' '.join(sentTokList))#Every item of the list is a sentence
                 probTokList.append(' '.join(docTokList))#Every item of the list is a document
                 docList.append(doc)
-            tokenizer=Tokenizer(nb_words=None,filters=base_filter(),lower=True,split=" ")
+            tokenizer = Tokenizer(nb_words=None,filters=base_filter(),lower=True,split=" ")
             tokenizer.fit_on_texts(probTokList)
-            seqList=tokenizer.texts_to_sequences(probTokList)
+            seqList = tokenizer.texts_to_sequences(probTokList)
+            uniqueTokens = max([max(x) for x in seqList])
             print(max([max(x) for x in seqList]),lang)
             docMatrix=tokenizer.sequences_to_matrix(seqList,mode="tfidf")
             for i, doc in enumerate(docMatrix):
                 docDict[docList[i]] = doc
             pairs=combinations(docDict.keys(),2)
             scoreDict = defaultdict(list)
-            #for pair in pairs:
-               #pairscore = LSTMcomp(docDict[pair[0]],docDict[pair[1]])
-                #scoreDict[pair[0]].append((pair[1],pairscore))
-                #scoreDict[pair[1]].append((pair[0],pairscore))
-            clusters = cluster_docs(scoreDict,docDict)
-            jsonList=[]
-            for cluster in clusters:
-                cList=[]
-                for doc in cluster:
-                    cList.append({"document":doc})
-                jsonList.append(cluster)
-            with open("clustering.json", "w") as jsonFile
-                json.dumps(jsonList.jsonFile)
+            bar=ProgressBar()
+            for pair in bar(pairs):
+                pairscore = LSTMcomp((docDict[pair[0]],docDict[pair[1]]),uniqueTokens)
+                scoreDict[pair[0]].append((pair[1],pairscore))
+                scoreDict[pair[1]].append((pair[0],pairscore))
+
+
+            # clusters = cluster_docs(scoreDict,docDict)
+            # jsonList=[]
+            # for cluster in clusters:
+            #     cList=[]
+            #     for doc in cluster:
+            #         cList.append({"document":doc})
+            #     jsonList.append(cluster)
+            # with open("clustering.json", "w") as jsonFile:
+            #     json.dumps(jsonList.jsonFile)
 
 
 
