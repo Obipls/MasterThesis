@@ -1,0 +1,24 @@
+# paragraphs
+sentences 
+words per sentence
+# pronouns
+POS sequences
+pos ngrams
+pos skipgrams
+word ngrams
+word skipgrams
+character ngrams
+character skipgrams
+
+readability tests for the doc-
+uments: 
+Flesch Reading Ease
+Flesch-Kincaid Grade Level  
+Dale-Chall readability formula.  
+
+abbreviations
+badwords
+
+NodeBox: emotion words connective words persuasive words
+
+language mistakes with LanguageTool

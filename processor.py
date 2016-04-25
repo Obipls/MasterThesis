@@ -72,7 +72,7 @@ def main():
             seqList = tokenizer.texts_to_sequences(probTokList)
             uniqueTokens = max([max(x) for x in seqList])
             print(max([max(x) for x in seqList]),lang)
-            docMatrix=tokenizer.sequences_to_matrix(seqList,mode="tfidf")
+            docMatrix=tokenizer.sequences_to_matrix(seqList,mode="binary")
             for i, doc in enumerate(docMatrix):
                 docDict[docList[i]] = doc
             pairs=combinations(docDict.keys(),2)
