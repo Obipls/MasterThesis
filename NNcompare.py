@@ -11,8 +11,11 @@ def LSTMcomp(docTuple, maxTokens):
 
     seqLength = 5000
 
-    doc_a = Input(shape=(seqLength, maxTokens))
-    doc_b = Input(shape=(seqLength, maxTokens))
+    x= np.reshape(docTuple[0], docTuple[0].shape + (1,))
+    y= np.reshape(docTuple[1], docTuple[1].shape + (1,))
+    print(x.shape)
+    doc_a = Input(shape=(x.shape))
+    doc_b = Input(shape=(y.shape))
 
 
     shared_lstm = LSTM(64)
