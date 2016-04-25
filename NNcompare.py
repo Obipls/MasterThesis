@@ -8,7 +8,6 @@ from keras.preprocessing.text import Tokenizer
 
 
 def LSTMcomp(docTuple, maxTokens):
-    print(docTuple)
 
     seqLength = 5000
 
@@ -33,4 +32,4 @@ def LSTMcomp(docTuple, maxTokens):
     doc1= Reshape((10,3), input_shape=docTuple[0])
     doc2= Reshape((10,3), input_shape=docTuple[1])
 
-    model.fit([Reshape((10,3), input_shape=docTuple[0]),Reshape((10,3), input_shape=docTuple[1])],1,nb_epoch=10)
+    model.fit([docTuple[0],docTuple[1]],1,nb_epoch=10)
