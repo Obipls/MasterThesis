@@ -1,0 +1,4 @@
+export PATH=$PATH:/home/louwaars16/TreeTagger/cmd
+export PATH=$PATH:/home/louwaars16/TreeTagger/bin
+export TREETAGGER_HOME='/home/louwaars16/TreeTagger'
+export PATH="/home/louwaars16/anaconda3/bin:$PATH"
