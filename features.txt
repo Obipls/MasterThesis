@@ -1,6 +1,7 @@
 # paragraphs
 sentences 
 words per sentence
+punctuation
 # pronouns
 POS sequences
 pos ngrams
@@ -19,6 +20,10 @@ Dale-Chall readability formula.
 abbreviations
 badwords
 
-NodeBox: emotion words connective words persuasive words
+NodeBox: emotion words connective words persuasive words (OSX only)
 
 language mistakes with LanguageTool
+
+
+https://pypi.python.org/pypi/textstat/
+https://pypi.python.org/pypi/language-check

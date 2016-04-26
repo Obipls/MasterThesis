@@ -9,13 +9,13 @@ from keras.preprocessing.text import Tokenizer
 
 def LSTMcomp(docTuple, maxTokens):
 
-    seqLength = 5000
+    seqLength = 1
 
-    x= np.reshape(docTuple[0], docTuple[0].shape + (1,))
-    y= np.reshape(docTuple[1], docTuple[1].shape + (1,))
-    print(x.shape)
-    doc_a = Input(shape=(x.shape))
-    doc_b = Input(shape=(y.shape))
+    a = np.atleast_3d((0,)+docTuple[0])
+    b = np.atleast_3d(docTuple[1]+(0,))
+    print(a.shape)
+    doc_a = Input(shape=[seqLength,maxTokens+1])
+    doc_b = Input(shape=[seqLength,maxTokens+1])
 
 
     shared_lstm = LSTM(64)
@@ -35,4 +35,4 @@ def LSTMcomp(docTuple, maxTokens):
     doc1= Reshape((10,3), input_shape=docTuple[0])
     doc2= Reshape((10,3), input_shape=docTuple[1])
 
-    model.fit([docTuple[0],docTuple[1]],1,nb_epoch=10)
+    model.fit([a,b],1,nb_epoch=10)
