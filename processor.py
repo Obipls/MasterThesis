@@ -11,6 +11,7 @@ from NNcompare import LSTMcomp
 from itertools import combinations,permutations
 from collections import defaultdict
 from progressbar import ProgressBar,Timer,Bar,ETA
+import numpy as np
 
 
 def preprop(token,greek):
@@ -71,7 +72,7 @@ def main():
             tokenizer.fit_on_texts(probTokList)
             seqList = tokenizer.texts_to_sequences(probTokList)
             uniqueTokens = max([max(x) for x in seqList])
-            print(max([max(x) for x in seqList]),lang)
+            print(uniqueTokens,lang)
             docMatrix=tokenizer.sequences_to_matrix(seqList,mode="tfidf")
             for i, doc in enumerate(docMatrix):
                 docDict[docList[i]] = doc
