@@ -28,7 +28,8 @@ def preprop(token,greek):
     # Replace ellipsis
     token = token.replace('. . .', '…').replace('...', '…').replace('⋯', '…')
     # Normalize according to paper
-    token = unicodedata.normalize('NFKD', token)
+    #token = unicode(token, "utf-8")
+    #token = unicodedata.normalize('NFKD', token)
     # Remove additional whitespace
     token = re.sub('\s+', ' ', token).strip()
     # Replace numbers with 7
@@ -80,6 +81,7 @@ def main():
             scoreDict = defaultdict(list)
             bar=ProgressBar()
             for pair in bar(pairs):
+                print(pair)
                 pairscore = LSTMcomp((docDict[pair[0]],docDict[pair[1]]),uniqueTokens)
                 scoreDict[pair[0]].append((pair[1],pairscore))
                 scoreDict[pair[1]].append((pair[0],pairscore))
