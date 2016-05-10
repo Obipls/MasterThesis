@@ -5,29 +5,27 @@ from keras.layers import Input, LSTM, Dense, merge, Reshape
 import numpy as np
 from keras.utils import np_utils
 from keras.preprocessing.text import Tokenizer
-from theano.tensor import reshape
 
 
-def LSTMcomp(docTuple,x):
-    seqLength = 3000
+def sharedNN(docDict,nnDict):
+
+    Y = list(nnDict.values())
+    X = []
+    for key in nnDict.keys():
+        docTuple = (docDict[key[0]],docDict[key[1]])
+        X.append(docTuple)
+
     doc1=docTuple[0].reshape(1,len(docTuple[0]))
     doc2=docTuple[1].reshape(1,len(docTuple[1]))
 
     doc_a = Input(shape=(len(docTuple[0]),))
     doc_b = Input(shape=(len(docTuple[1]),))
 
-
-
-
-    shared_layer = Dense(output_dim=64, input_dim=10000, input_length=100)
+    shared_layer = Dense(64)
 
     encoded_a = shared_layer(doc_a)
     encoded_b = shared_layer(doc_b)
 
-
-    doc1=docTuple[0]
-    doc2=docTuple[1]
-    print(doc1.shape)
 
 
 
@@ -41,4 +39,4 @@ def LSTMcomp(docTuple,x):
     model.compile(optimizer='rmsprop', loss='binary_crossentropy',
                   metrics=['accuracy'])
 
-    model.fit([doc1,doc2], np.r_[10], nb_epoch=10)
+    model.fit([doc1,doc2], np.r_[Y], nb_epoch=10)

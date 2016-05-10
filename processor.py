@@ -6,8 +6,7 @@
 
 import os, re, sys, ujson, unicodedata
 from keras.preprocessing.text import Tokenizer, base_filter
-from NNcompare import LSTMcomp
-#from clusterer import cluster_docs
+from NNcompare import sharedNN
 from itertools import combinations,permutations
 from collections import defaultdict
 from progressbar import ProgressBar,Timer,Bar,ETA
@@ -77,13 +76,14 @@ def main():
             seqList = tokenizer.texts_to_sequences(probTokList)
             uniqueTokens = max([max(x) for x in seqList])
             print(uniqueTokens,lang)
-            docMatrix=tokenizer.sequences_to_matrix(seqList,mode="tfidf")
+            docMatrix = tokenizer.sequences_to_matrix(seqList,mode="tfidf")
             for i, doc in enumerate(docMatrix):
                 docDict[docList[i]] = doc
-            pairs=combinations(docDict.keys(),2)
+            pairs = combinations(docDict.keys(),2)
             scoreDict = defaultdict(list)
-            bar=ProgressBar()
-            cList=[]
+            bar = ProgressBar()
+            cList = []
+            nnDict = {}
             for cluster in truth:
                 cPairs = []
                 if len(cluster) > 1:
@@ -94,10 +94,12 @@ def main():
                 match = False
                 if pair in cList:
                     match = True
-                print(pair)
-                pairscore = LSTMcomp((docDict[pair[0]],docDict[pair[1]]),match)
-                scoreDict[pair[0]].append((pair[1],pairscore))
-                scoreDict[pair[1]].append((pair[0],pairscore))
+                nnDict[pair] = match
+            scores = sharedNN(docDict,nnDict)
+
+                # pairscore = LSTMcomp((docDict[pair[0]],docDict[pair[1]]),match)
+                # scoreDict[pair[0]].append((pair[1],pairscore))
+                # scoreDict[pair[1]].append((pair[0],pairscore))
 
 
             # clusters = cluster_docs(scoreDict,docDict)
