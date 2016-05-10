@@ -28,7 +28,8 @@ def preprop(token,greek):
     # Replace ellipsis
     token = token.replace('. . .', '…').replace('...', '…').replace('⋯', '…')
     # Normalize according to paper
-    token = unicodedata.normalize('NFKD', token)
+    #token = unicode(token, "utf-8")
+    #token = unicodedata.normalize('NFKD', token)
     # Remove additional whitespace
     token = re.sub('\s+', ' ', token).strip()
     # Replace numbers with 7
@@ -45,25 +46,28 @@ def main():
     for problem in os.listdir('data'):
         greek=False
         if problem.startswith('problem'):
+            truthPath = 'data/truth/'+problem+'/clustering.json'
+            with open(truthPath) as t:
+                truth = ujson.load(t)
             print(problem)
-            probTokList=[]
-            docList=[]
-            docDict={}
+            probTokList = []
+            docList = []
+            docDict = {}
             path = 'data/' + problem
             for entry in info:
-                if entry["folder"]==problem:
+                if entry["folder"] == problem:
                     lang=entry["language"]
-                    if entry["language"]=="gr":
+                    if entry["language"] == "gr":
                         greek=True
             for doc in os.listdir(path):
                 docTokList = []
                 with open(path + '/' + doc) as d:
                     text = d.readlines()
                     for sent in text:
-                        sentTokList=[]
+                        sentTokList = []
                         for word in sent.split():
                             for token in word:
-                                procToken=preprop(token,greek)
+                                procToken = preprop(token,greek)
                                 sentTokList.append(procToken) #Every item of the list is a normalized character
                         docTokList.append(' '.join(sentTokList))#Every item of the list is a sentence
                 probTokList.append(' '.join(docTokList))#Every item of the list is a document
@@ -79,8 +83,19 @@ def main():
             pairs=combinations(docDict.keys(),2)
             scoreDict = defaultdict(list)
             bar=ProgressBar()
+            cList=[]
+            for cluster in truth:
+                cPairs = []
+                if len(cluster) > 1:
+                    for item in cluster:
+                        cPairs.append(str(item["document"]))
+                cList.extend(list(permutations(cPairs,2)))
             for pair in bar(pairs):
-                pairscore = LSTMcomp((docDict[pair[0]],docDict[pair[1]]),uniqueTokens)
+                match = False
+                if pair in cList:
+                    match = True
+                print(pair)
+                pairscore = LSTMcomp((docDict[pair[0]],docDict[pair[1]]),match)
                 scoreDict[pair[0]].append((pair[1],pairscore))
                 scoreDict[pair[1]].append((pair[0],pairscore))
 
