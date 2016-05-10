@@ -5,6 +5,7 @@ from keras.layers import Input, LSTM, Dense, merge, Reshape
 import numpy as np
 from keras.utils import np_utils
 from keras.preprocessing.text import Tokenizer
+from theano.tensor import reshape
 
 
 def LSTMcomp(docTuple,x):
@@ -13,13 +14,18 @@ def LSTMcomp(docTuple,x):
     doc_a = Input(shape=(len(docTuple[0]),))
     doc_b = Input(shape=(len(docTuple[1]),))
 
-    shared_layer = Dense(64)
+
+
+
+    shared_layer = Dense(output_dim=64, input_dim=10000, input_length=100)
 
     encoded_a = shared_layer(doc_a)
     encoded_b = shared_layer(doc_b)
 
-    doc1 = Reshape((None,len(docTuple[0])),input_shape=(docTuple[0],))
-    doc2 = Reshape((None,len(docTuple[1])),input_shape=(docTuple[1],))
+    doc1=docTuple[0]
+    doc2=docTuple[1]
+    print(doc1.shape)
+
 
 
 
