@@ -7,7 +7,10 @@ from keras.utils import np_utils
 from keras.preprocessing.text import Tokenizer
 
 
-
+<<<<<<< HEAD
+def LSTMcomp(docTuple,match):
+    seqLength = 3000
+=======
 def sharedNN(docDict,nnDict):
 
     Y = list(nnDict.values())
@@ -16,6 +19,7 @@ def sharedNN(docDict,nnDict):
         docTuple = (docDict[key[0]],docDict[key[1]])
         X.append(docTuple)
 
+>>>>>>> c02cfe9e4a236b27b32daccb7b8b7b859455428a
     doc1=docTuple[0].reshape(1,len(docTuple[0]))
     doc2=docTuple[1].reshape(1,len(docTuple[1]))
 
