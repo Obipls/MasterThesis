@@ -7,7 +7,7 @@ from keras.utils import np_utils
 from keras.preprocessing.text import Tokenizer
 
 
-def LSTMcomp(docTuple,x):
+def LSTMcomp(docTuple,match):
     seqLength = 3000
     doc1=docTuple[0].reshape(1,len(docTuple[0]))
     doc2=docTuple[1].reshape(1,len(docTuple[1]))
