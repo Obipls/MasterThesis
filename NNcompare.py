@@ -10,34 +10,40 @@ from keras.preprocessing.text import Tokenizer
 
 def sharedNN(docDict,nnDict):
 
-    Y = list(nnDict.values())
-    X = []
-    for key in nnDict.keys():
-        docTuple = (docDict[key[0]],docDict[key[1]])
-        X.append(docTuple)
-
-    doc1=docTuple[0].reshape(1,len(docTuple[0]))
-    doc2=docTuple[1].reshape(1,len(docTuple[1]))
-
-    doc_a = Input(shape=(len(docTuple[0]),))
-    doc_b = Input(shape=(len(docTuple[1]),))
-
-    shared_layer = Dense(64)
-
-    encoded_a = shared_layer(doc_a)
-    encoded_b = shared_layer(doc_b)
+	Y = list(nnDict.values())
+	X = []
+	encodedList = []
+	shared_layer = Dense(64)
+	docList = []
+	
+	for key in nnDict.keys():
+		docTuple = (docDict[key[0]],docDict[key[1]])
 
 
+		doc1=docTuple[0].reshape(1,len(docTuple[0]))
+		doc2=docTuple[1].reshape(1,len(docTuple[1]))
+
+		X.append(doc1)
+		X.append(doc2)
 
 
+		doc_a = Input(shape=(len(docTuple[0]),))
+		doc_b = Input(shape=(len(docTuple[1]),))
+		docList.append(doc_a)
+		docList.append(doc_b)
 
-    merged_vector = merge([encoded_a, encoded_b], mode='concat', concat_axis=-1)
+		encoded_a = shared_layer(doc_a)
+		encoded_b = shared_layer(doc_b)
 
-    predictions = Dense(1, activation='sigmoid')(merged_vector)
+		encodedList.append(encoded_a)
+		encodedList.append(encoded_b)
+		#print(encodedList)
+	print(len(Y))
+	print(len(X))
 
-    model = Model(input=[doc_a, doc_b], output=predictions)
+	merged_vector = merge(encodedList, mode='concat', concat_axis=-1)
+	predictions = Dense(1, activation='sigmoid')(merged_vector)
+	model = Model(input=docList, output=predictions)
+	model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['accuracy'])
 
-    model.compile(optimizer='rmsprop', loss='binary_crossentropy',
-                  metrics=['accuracy'])
-
-    model.fit([doc1,doc2], np.r_[Y], nb_epoch=10)
+	model.fit(X,Y, nb_epoch=10)
