@@ -14,10 +14,11 @@ def sharedNN(docDict,nnDict):
     X = []
     for key in nnDict.keys():
         docTuple = (docDict[key[0]],docDict[key[1]])
-        X.append(docTuple)
+        
 
     doc1=docTuple[0].reshape(1,len(docTuple[0]))
     doc2=docTuple[1].reshape(1,len(docTuple[1]))
+    X.append([doc1,doc2])
 
     doc_a = Input(shape=(len(docTuple[0]),))
     doc_b = Input(shape=(len(docTuple[1]),))
@@ -39,5 +40,10 @@ def sharedNN(docDict,nnDict):
 
     model.compile(optimizer='rmsprop', loss='binary_crossentropy',
                   metrics=['accuracy'])
+    print(X[:3])
 
-    model.fit([doc1,doc2], np.r_[Y], nb_epoch=10)
+
+    model.train_on_batch(X[0], np.r_[Y])
+
+
+    #model.fit([doc1,doc2], np.r_[Y], nb_epoch=10)
