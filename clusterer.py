@@ -1,21 +1,10 @@
 # !/usr/bin/env python3.5
 # coding=utf-8
 import numpy as np
-from sklearn.cluster import MeanShift, estimate_bandwidth
+from sklearn.cluster import KMeans
 
-def clusterer(scores,docs):
+def KNNclusterer(nclusters,X):
+    cls = KMeans(n_clusters=nclusters, init='k-means++', n_init=10, max_iter=300, tol=0.0001, precompute_distances='auto', verbose=0, random_state=None, copy_x=True, n_jobs=1)
+    cls.fit_predict(X)
+    return cls.labels_
 
-    # The following bandwidth can be automatically detected using
-    bandwidth = estimate_bandwidth(X, quantile=0.2, n_samples=500)
-
-    ms = MeanShift(bandwidth=bandwidth, bin_seeding=True)
-    ms.fit(X)
-    labels = ms.labels_
-    cluster_centers = ms.cluster_centers_
-
-    labels_unique = np.unique(labels)
-    n_clusters_ = len(labels_unique)
-
-    print("number of estimated clusters : %d" % n_clusters_)
-
-    return n_clusters_

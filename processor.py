@@ -8,8 +8,9 @@ import os, re, sys, ujson, unicodedata
 from keras.preprocessing.text import Tokenizer, base_filter
 from NNcompare import sharedNN
 from itertools import combinations,permutations
-from collections import defaultdict
+from collections import defaultdict, Counter
 from progressbar import ProgressBar,Timer,Bar,ETA
+from clusterer import KNNclusterer
 import numpy as np
 
 
@@ -95,7 +96,24 @@ def main():
                 if pair in cList:
                     match = True
                 nnDict[pair] = match
-            scores = sharedNN(docDict,nnDict)
+            clusterCount = Counter()
+            for nclusters in reversed(range(len(docMatrix)-1)):
+                print()
+                print()
+                print("{} Clusters".format(nclusters+1))
+
+
+                clusters = KNNclusterer(nclusters+1,docMatrix)
+                for c in range(nclusters+1):
+                    print(c,"has:",[i for i,x in enumerate(clusters) if x == c])
+                    for clusterpair in list(combinations([i for i,x in enumerate(clusters) if x == c],2)):
+                        clusterCount[str(clusterpair)]+=1
+            print()
+            print(clusterCount.most_common(20))
+
+
+
+            #scores = sharedNN(docDict,nnDict)
 
                 # pairscore = LSTMcomp((docDict[pair[0]],docDict[pair[1]]),match)
                 # scoreDict[pair[0]].append((pair[1],pairscore))
