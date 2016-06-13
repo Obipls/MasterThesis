@@ -5,16 +5,16 @@
 # http://arxiv.org/ftp/arxiv/papers/1506/1506.04891.pdf
 
 import os, re, sys, ujson, unicodedata
-from keras.preprocessing.text import Tokenizer, base_filter
-from NNcompare import sharedNN
+from keras.preprocessing import text, sequence
+from NNcompare import sharedNN, embedNN
 from itertools import combinations,permutations
 from collections import defaultdict, Counter
 from progressbar import ProgressBar,Timer,Bar,ETA
 from clusterer import KNNclusterer
 import numpy as np
 
-
 def preprop(token,greek):
+	pass
 	# Replace all quotes to a single one
 	token = token.replace("‘", '"').replace("’", '"').replace('“', '"').replace('”', '"').replace("'", '"').replace("'",
 																																																								'"').replace(
@@ -53,6 +53,9 @@ def main():
 			probTokList = []
 			docList = []
 			docDict = {}
+			X=[]
+			Y=[]
+
 			path = 'data/' + problem
 			for entry in info:
 				if entry["folder"] == problem:
@@ -62,8 +65,8 @@ def main():
 			for doc in os.listdir(path):
 				docTokList = []
 				with open(path + '/' + doc) as d:
-						text = d.readlines()
-						for sent in text:
+						article = d.readlines()
+						for sent in article:
 							sentTokList = []
 							for word in sent.split():
 								for token in word:
@@ -72,11 +75,19 @@ def main():
 							docTokList.append(' '.join(sentTokList))#Every item of the list is a sentence
 				probTokList.append(' '.join(docTokList))#Every item of the list is a document
 				docList.append(doc)
-			tokenizer = Tokenizer(nb_words=None,filters=base_filter(),lower=True,split=" ")
+			tokenizer = text.Tokenizer(nb_words=None,filters=text.base_filter(),lower=True,split=" ")
 			tokenizer.fit_on_texts(probTokList)
 			seqList = tokenizer.texts_to_sequences(probTokList)
 			uniqueTokens = max([max(x) for x in seqList])
 			print(uniqueTokens,lang)
+			sampling_table = sequence.make_sampling_table(uniqueTokens+1)
+			for i,seq in enumerate(seqList):
+				x, y = sequence.skipgrams(seq, uniqueTokens, window_size=4, negative_samples=1., categorical=True, sampling_table=sampling_table)
+				X.extend(x)
+				Y.extend(y)
+			scores = embedNN(X,Y)
+
+			"""
 			docMatrix = tokenizer.sequences_to_matrix(seqList,mode="tfidf")
 			for i, doc in enumerate(docMatrix):
 				docDict[docList[i]] = doc
@@ -95,7 +106,7 @@ def main():
 				match = False
 				if pair in cList:
 					match = True
-				nnDict[pair] = match
+				nnDict[pair] = match """
 			# clusterCount = Counter()
 			# for nclusters in reversed(range(len(docMatrix)-1)):
 			#     print()
@@ -113,7 +124,7 @@ def main():
 
 
 
-			scores = sharedNN(docDict,nnDict)
+			#scores = sharedNN(docDict,nnDict)
 
 						# pairscore = LSTMcomp((docDict[pair[0]],docDict[pair[1]]),match)
 						# scoreDict[pair[0]].append((pair[1],pairscore))
