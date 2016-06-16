@@ -36,16 +36,15 @@ def sharedNN(docDict, nnDict):
 	#import pdb; pdb.set_trace()
 
 def embedNN(X,Y):
-	print(Counter(Y))
 	X = np.asarray([i for i in X], dtype=np.float32)
 	Y = np.asarray([i for i in Y], dtype=np.int32)
-	print(X.shape)
-	print(Y.shape)
+	# print(X.shape)
+	# print(Y.shape)
 
 	model = Sequential()
 	model.add(Dense(64, input_shape=(X.shape[1], ), activation='relu'))
 	model.add(Dense(2, activation='softmax'))
 	model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-	model.fit(X, Y, nb_epoch=20)
+	model.fit(X, Y, nb_epoch=1,verbose=2)
 
 		

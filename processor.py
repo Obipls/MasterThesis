@@ -10,11 +10,10 @@ from NNcompare import sharedNN, embedNN
 from itertools import combinations,permutations
 from collections import defaultdict, Counter
 from progressbar import ProgressBar,Timer,Bar,ETA
-from clusterer import KNNclusterer
+from clusterer import KNNclusterer, MSclusterer
 import numpy as np
 
 def preprop(token,greek):
-	pass
 	# Replace all quotes to a single one
 	token = token.replace("‘", '"').replace("’", '"').replace('“', '"').replace('”', '"').replace("'", '"').replace("'",
 																																																								'"').replace(
@@ -41,6 +40,7 @@ def preprop(token,greek):
 
 
 def main():
+	scoreList = [0.0,0.0]
 	with open('data/info.json') as j:
 		info = ujson.load(j)
 	for problem in os.listdir('data'):
@@ -77,6 +77,7 @@ def main():
 				docList.append(doc)
 			tokenizer = text.Tokenizer(nb_words=None,filters=text.base_filter(),lower=True,split=" ")
 			tokenizer.fit_on_texts(probTokList)
+			docMatrix = tokenizer.texts_to_matrix(probTokList)
 			seqList = tokenizer.texts_to_sequences(probTokList)
 			uniqueTokens = max([max(x) for x in seqList])
 			print(uniqueTokens,lang)
@@ -85,15 +86,9 @@ def main():
 				x, y = sequence.skipgrams(seq, uniqueTokens, window_size=4, negative_samples=1., categorical=True, sampling_table=sampling_table)
 				X.extend(x)
 				Y.extend(y)
-			scores = embedNN(X,Y)
-
-			"""
-			docMatrix = tokenizer.sequences_to_matrix(seqList,mode="tfidf")
-			for i, doc in enumerate(docMatrix):
-				docDict[docList[i]] = doc
+				docDict[docList[i]] = seq
+			#scores = embedNN(X,Y)
 			pairs = combinations(docDict.keys(),2)
-			scoreDict = defaultdict(list)
-			bar = ProgressBar()
 			cList = []
 			nnDict = {}
 			for cluster in truth:
@@ -102,26 +97,33 @@ def main():
 					for item in cluster:
 						cPairs.append(str(item["document"]))
 					cList.extend(list(permutations(cPairs,2)))
-			for pair in bar(pairs):
+			for pair in pairs:
 				match = False
 				if pair in cList:
 					match = True
-				nnDict[pair] = match """
-			# clusterCount = Counter()
-			# for nclusters in reversed(range(len(docMatrix)-1)):
-			#     print()
-			#     print()
-			#     print("{} Clusters".format(nclusters+1))
-
-
-			#     clusters = KNNclusterer(nclusters+1,docMatrix)
-			#     for c in range(nclusters+1):
-			#         print(c,"has:",[i for i,x in enumerate(clusters) if x == c])
-			#         for clusterpair in list(combinations([i for i,x in enumerate(clusters) if x == c],2)):
-			#             clusterCount[str(clusterpair)]+=1
-			# print()
-			# print(clusterCount.most_common(20))
-
+				nnDict[pair] = match
+			truthCounter =  Counter(nnDict.values())
+			baseline = 1-float(truthCounter[True])/float(len(nnDict))
+			print("Baseline for {} is {}".format(problem, baseline))
+			clusterCount = Counter()
+			for nclusters in reversed(range(len(docMatrix)-1)):
+				#print("{} Clusters".format(nclusters+1))
+				#clusters = KNNclusterer(nclusters+1,docMatrix)
+				clusters = MSclusterer(docMatrix)
+				for c in range(nclusters+1):
+					#print(c,"has:",[i for i,x in enumerate(clusters) if x == c])
+					for clusterpair in list(combinations([i for i,x in enumerate(clusters) if x == c],2)):
+						combo = (docList[clusterpair[0]],docList[clusterpair[1]])
+						clusterCount[combo] +=1
+			#print(cList)
+			x = 0.0 
+			scoreList[0] += truthCounter[True]
+			for combo in clusterCount.most_common(20):
+				if combo[0] in cList:
+					x += 1
+					scoreList[1] += 1
+			print("Document score is {} clusters correct out of {} ({})".format(x, truthCounter[True], x/truthCounter[True]))
+	print("Total score  is {}, {} clusters correct".format(scoreList[1]/scoreList[0], scoreList[1]))
 
 
 			#scores = sharedNN(docDict,nnDict)
@@ -147,4 +149,4 @@ def main():
 
 
 if __name__ == '__main__':
-		main()
+	main()

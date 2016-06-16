@@ -1,0 +1,13 @@
+May 30th: KNN clustering in place for iterating over [2,n-1] clusters and compare results of documents in the same cluster often.
+Disadvantages:
+	- Unclear to learn when the optimum number of clusters is reached
+	- No automatic evaluation script, manual sampling instead.
+
+
+June 6th: NN up and running, achieving baseline like score of 94%. 
+Disadvantages: 
+	- sparse matrix as input for NN, creating high baseline
+
+June 13th: NN with new features (character embeddings), achieving scores of 75-85%
+Disadvantages:
+	- Baseline unclear
