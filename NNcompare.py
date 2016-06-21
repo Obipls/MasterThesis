@@ -14,9 +14,11 @@ def sharedNN(docDict, nnDict):
 
 	for key in nnDict.keys():
 		docTuple = (docDict[key[0]], docDict[key[1]])
+		print(docTuple[0].shape)
+		print(docTuple[1].shape)
 
-		doc1 = docTuple[0].reshape(1, len(docTuple[0]))
-		doc2 = docTuple[1].reshape(1, len(docTuple[1]))
+		doc1 = docTuple[0].reshape(2, len(docTuple[0]))
+		doc2 = docTuple[1].reshape(2, len(docTuple[1]))
 
 		X.append(np.vstack((doc1, doc2)))
 
@@ -32,7 +34,7 @@ def sharedNN(docDict, nnDict):
 	model.add(Dense(64, input_shape=(X.shape[1], ), activation='relu'))
 	model.add(Dense(2, activation='softmax'))
 	model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-	model.fit(X, Y, nb_epoch=20)
+	model.fit(X, Y, nb_epoch=20, verbose=2)
 	#import pdb; pdb.set_trace()
 
 def embedNN(X,Y):

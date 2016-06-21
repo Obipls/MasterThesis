@@ -77,16 +77,20 @@ def main():
 				docList.append(doc)
 			tokenizer = text.Tokenizer(nb_words=None,filters=text.base_filter(),lower=True,split=" ")
 			tokenizer.fit_on_texts(probTokList)
-			docMatrix = tokenizer.texts_to_matrix(probTokList)
 			seqList = tokenizer.texts_to_sequences(probTokList)
+			
 			uniqueTokens = max([max(x) for x in seqList])
+
 			print(uniqueTokens,lang)
 			sampling_table = sequence.make_sampling_table(uniqueTokens+1)
 			for i,seq in enumerate(seqList):
-				x, y = sequence.skipgrams(seq, uniqueTokens, window_size=4, negative_samples=1., categorical=True, sampling_table=sampling_table)
-				X.extend(x)
-				Y.extend(y)
+				x, y = sequence.skipgrams(seq, uniqueTokens, window_size=4, negative_samples=1.0, categorical=False, sampling_table=sampling_table)
+				x = zip(x, y)
+				X.append(x)
+				#Y.extend(y)
 				docDict[docList[i]] = seq
+			#docMatrix = tokenizer.sequences_to_matrix(seqList,mode="tfidf")
+			docMatrix = tokenizer.sequences_to_matrix(X,mode="tfidf")
 			#scores = embedNN(X,Y)
 			pairs = combinations(docDict.keys(),2)
 			cList = []
@@ -102,6 +106,12 @@ def main():
 				if pair in cList:
 					match = True
 				nnDict[pair] = match
+
+			for i, doc in enumerate(docMatrix):
+				docDict[docList[i]] = doc
+			scores = sharedNN(docDict, nnDict)
+
+			
 			truthCounter =  Counter(nnDict.values())
 			baseline = 1-float(truthCounter[True])/float(len(nnDict))
 			print("Baseline for {} is {}".format(problem, baseline))
@@ -109,7 +119,8 @@ def main():
 			for nclusters in reversed(range(len(docMatrix)-1)):
 				#print("{} Clusters".format(nclusters+1))
 				#clusters = KNNclusterer(nclusters+1,docMatrix)
-				clusters = MSclusterer(docMatrix)
+				#clusters = MSclusterer(docMatrix)
+				clusters = []
 				for c in range(nclusters+1):
 					#print(c,"has:",[i for i,x in enumerate(clusters) if x == c])
 					for clusterpair in list(combinations([i for i,x in enumerate(clusters) if x == c],2)):
@@ -118,12 +129,16 @@ def main():
 			#print(cList)
 			x = 0.0 
 			scoreList[0] += truthCounter[True]
+			#print("Most common cluster is in {}%".format((float(clusterCount.most_common(20)[19][1])/len(docMatrix))*100))
 			for combo in clusterCount.most_common(20):
 				if combo[0] in cList:
 					x += 1
 					scoreList[1] += 1
-			print("Document score is {} clusters correct out of {} ({})".format(x, truthCounter[True], x/truthCounter[True]))
-	print("Total score  is {}, {} clusters correct".format(scoreList[1]/scoreList[0], scoreList[1]))
+			print("prec: {}".format(x/20))
+			#print("Document score is {} clusters correct out of {} (accuracy {})".format(x, truthCounter[True], x/truthCounter[True]))
+			#print("prec: {} \nrec: {}".format(x/20, x/len(nnDict.values())))
+
+	print("Total precision  is {}, {} clusters correct".format(scoreList[1]/scoreList[0], scoreList[1]))
 
 
 			#scores = sharedNN(docDict,nnDict)
