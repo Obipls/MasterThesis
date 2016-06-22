@@ -89,8 +89,8 @@ def main():
 				X.append(x)
 				#Y.extend(y)
 				docDict[docList[i]] = seq
-			#docMatrix = tokenizer.sequences_to_matrix(seqList,mode="tfidf")
-			docMatrix = tokenizer.sequences_to_matrix(X,mode="tfidf")
+			docMatrix = tokenizer.sequences_to_matrix(seqList,mode="tfidf")
+			#docMatrix = tokenizer.sequences_to_matrix(X,mode="tfidf")
 			#scores = embedNN(X,Y)
 			pairs = combinations(docDict.keys(),2)
 			cList = []
@@ -109,27 +109,47 @@ def main():
 
 			for i, doc in enumerate(docMatrix):
 				docDict[docList[i]] = doc
-			scores = sharedNN(docDict, nnDict)
 
 			
 			truthCounter =  Counter(nnDict.values())
 			baseline = 1-float(truthCounter[True])/float(len(nnDict))
 			print("Baseline for {} is {}".format(problem, baseline))
 			clusterCount = Counter()
-			for nclusters in reversed(range(len(docMatrix)-1)):
-				#print("{} Clusters".format(nclusters+1))
-				#clusters = KNNclusterer(nclusters+1,docMatrix)
-				#clusters = MSclusterer(docMatrix)
-				clusters = []
-				for c in range(nclusters+1):
-					#print(c,"has:",[i for i,x in enumerate(clusters) if x == c])
-					for clusterpair in list(combinations([i for i,x in enumerate(clusters) if x == c],2)):
-						combo = (docList[clusterpair[0]],docList[clusterpair[1]])
-						clusterCount[combo] +=1
-			#print(cList)
+
+			knnclusters = True # Change to False for meanshift
+			if knnclusters:
+				for nclusters in reversed(range(len(docMatrix)-1)):
+					#print("{} Clusters".format(nclusters+1))
+					clusters = KNNclusterer(nclusters+1,docMatrix)
+					for c in range(nclusters+1):
+						#print(c,"has:",[i for i,x in enumerate(clusters) if x == c])
+						for clusterpair in list(combinations([i for i,x in enumerate(clusters) if x == c],2)):
+							combo = (docList[clusterpair[0]],docList[clusterpair[1]])
+							clusterCount[combo] +=1
+			else:
+				clusters = MSclusterer(docMatrix)
+				for clusterpair in list(combinations([i for i,x in enumerate(clusters)],2)):
+					combo = (docList[clusterpair[0]],docList[clusterpair[1]])
+					clusterCount[combo] +=1
+
 			x = 0.0 
 			scoreList[0] += truthCounter[True]
+			deleteList = []
 			#print("Most common cluster is in {}%".format((float(clusterCount.most_common(20)[19][1])/len(docMatrix))*100))
+			for combo in nnDict.keys():
+				if combo not in clusterCount.keys():
+					deleteList.append(combo)
+			for item in deleteList:
+				del nnDict[item]
+			scores = sharedNN(docDict, nnDict)
+
+					
+
+				
+
+
+
+
 			for combo in clusterCount.most_common(20):
 				if combo[0] in cList:
 					x += 1
