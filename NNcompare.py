@@ -14,11 +14,8 @@ def sharedNN(docDict, nnDict):
 
 	for key in nnDict.keys():
 		docTuple = (docDict[key[0]], docDict[key[1]])
-		print(docTuple[0].shape)
-		print(docTuple[1].shape)
-
-		doc1 = docTuple[0].reshape(2, len(docTuple[0]))
-		doc2 = docTuple[1].reshape(2, len(docTuple[1]))
+		doc1 = docTuple[0].reshape(1, len(docTuple[0]))
+		doc2 = docTuple[1].reshape(1, len(docTuple[1]))
 
 		X.append(np.vstack((doc1, doc2)))
 

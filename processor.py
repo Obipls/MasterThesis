@@ -89,8 +89,11 @@ def main():
 				X.append(x)
 				#Y.extend(y)
 				docDict[docList[i]] = seq
+			strX=[str(x) for x in X]
+			xTokenizer = text.Tokenizer(nb_words=None,filters=text.base_filter(),lower=True,split=" ")
+			xTokenizer.fit_on_texts(strX)
 			#docMatrix = tokenizer.sequences_to_matrix(seqList,mode="tfidf")
-			docMatrix = tokenizer.sequences_to_matrix(X,mode="tfidf")
+			docMatrix = xTokenizer.sequences_to_matrix(strX,mode="tfidf")
 			#scores = embedNN(X,Y)
 			pairs = combinations(docDict.keys(),2)
 			cList = []
