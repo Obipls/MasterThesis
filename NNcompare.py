@@ -33,6 +33,9 @@ def sharedNN(docDict, nnDict):
 	model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 	model.fit(X, Y, nb_epoch=20, verbose=2)
 	#import pdb; pdb.set_trace()
+	predictions = model.predict(X, batch_size=len(X), verbose=0)
+
+	return predictions
 
 def embedNN(X,Y):
 	X = np.asarray([i for i in X], dtype=np.float32)
