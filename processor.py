@@ -9,8 +9,9 @@ from keras.preprocessing import text, sequence
 from NNcompare import sharedNN, embedNN
 from itertools import combinations,permutations
 from collections import defaultdict, Counter
-from progressbar import ProgressBar,Timer,Bar,ETA
-from clusterer import KNNclusterer, MSclusterer
+from progressbar import ProgressBar
+from clusterer import KMclusterer, MSclusterer
+from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 
 def preprop(token,greek):
@@ -38,7 +39,6 @@ def preprop(token,greek):
 			token = re.sub('[a-zA-Z]','s',token)
 	return token
 
-
 def main():
 	scoreList = [0.0,0.0]
 	with open('data/info.json') as j:
@@ -62,6 +62,10 @@ def main():
 					lang=entry["language"]
 					if entry["language"] == "gr":
 						greek=True
+
+			CV = CountVectorizer(input='filename', strip_accents='unicode', analyzer='word', ngram_range=(1,4))
+			docs = [path+'/'+x for x in os.listdir(path)]
+			cMatrix = CV.fit_transform(docs)
 			for doc in os.listdir(path):
 				docTokList = []
 				with open(path + '/' + doc) as d:
@@ -118,19 +122,19 @@ def main():
 			baseline = 1-float(truthCounter[True])/float(len(nnDict))
 			print("Baseline for {} is {}".format(problem, baseline))
 			clusterCount = Counter()
-
-			knnclusters = True # Change to False for meanshift
-			if knnclusters:
-				for nclusters in reversed(range(len(docMatrix)-1)):
+			kmclusters = False # Change to False for meanshift
+			if kmclusters:
+				pbar = ProgressBar()
+				for nclusters in pbar(reversed(range(len(docMatrix)-1))):
 					#print("{} Clusters".format(nclusters+1))
-					clusters = KNNclusterer(nclusters+1,docMatrix)
+					clusters = KMclusterer(nclusters+1,cMatrix)
 					for c in range(nclusters+1):
 						#print(c,"has:",[i for i,x in enumerate(clusters) if x == c])
 						for clusterpair in list(combinations([i for i,x in enumerate(clusters) if x == c],2)):
 							combo = (docList[clusterpair[0]],docList[clusterpair[1]])
 							clusterCount[combo] +=1
 			else:
-				clusters = MSclusterer(docMatrix)
+				clusters = MSclusterer(cMatrix)
 				for clusterpair in list(combinations([i for i,x in enumerate(clusters)],2)):
 					combo = (docList[clusterpair[0]],docList[clusterpair[1]])
 					clusterCount[combo] +=1
@@ -142,16 +146,15 @@ def main():
 			for combo in nnDict.keys():
 				if combo not in clusterCount.keys():
 					deleteList.append(combo)
+			y = 0.0
 			for item in deleteList:
+				if item in cList:
+					y+=1
 				del nnDict[item]
 			scores = sharedNN(docDict, nnDict)
-
-					
-
-				
-
-
-
+			for score in scores:
+				print(score)
+			print("Deleted pairs are {}% of total correct pairs, {}% of deleted pairs was wrongly deleted".format(round(y/len(cList)*100.0,2), round(y/len(deleteList)*100.0,2)))
 
 			for combo in clusterCount.most_common(20):
 				if combo[0] in cList:
