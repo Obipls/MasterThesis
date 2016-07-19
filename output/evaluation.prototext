@@ -1,0 +1,8 @@
+measure {
+ key: "Mean F-score"
+ value: "0.376374"
+}
+measure {
+ key: "Mean Average Precision"
+ value: "0.013792"
+}

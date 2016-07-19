@@ -4,7 +4,7 @@
 # https://cs224d.stanford.edu/reports/YaoLeon.pdf
 # http://arxiv.org/ftp/arxiv/papers/1506/1506.04891.pdf
 
-import os, re, sys, ujson, unicodedata
+import os, re, sys, ujson, unicodedata, json
 from keras.preprocessing import text, sequence
 from NNcompare import sharedNN, embedNN
 from itertools import combinations,permutations
@@ -151,9 +151,7 @@ def main():
 				if item in cList:
 					y+=1
 				del nnDict[item]
-			scores = sharedNN(docDict, nnDict)
-			for score in scores:
-				print(score)
+			#scores = sharedNN(docDict, nnDict)
 			print("Deleted pairs are {}% of total correct pairs, {}% of deleted pairs was wrongly deleted".format(round(y/len(cList)*100.0,2), round(y/len(deleteList)*100.0,2)))
 
 			for combo in clusterCount.most_common(20):
@@ -164,7 +162,7 @@ def main():
 			#print("Document score is {} clusters correct out of {} (accuracy {})".format(x, truthCounter[True], x/truthCounter[True]))
 			#print("prec: {} \nrec: {}".format(x/20, x/len(nnDict.values())))
 
-	print("Total precision  is {}, {} clusters correct".format(scoreList[1]/scoreList[0], scoreList[1]))
+	#print("Total precision  is {}, {} clusters correct".format(scoreList[1]/scoreList[0], scoreList[1]))
 
 
 			#scores = sharedNN(docDict,nnDict)
@@ -173,16 +171,23 @@ def main():
 						# scoreDict[pair[0]].append((pair[1],pairscore))
 						# scoreDict[pair[1]].append((pair[0],pairscore))
 
-
-				# clusters = cluster_docs(scoreDict,docDict)
-				# jsonList=[]
-				# for cluster in clusters:
-				#     cList=[]
-				#     for doc in cluster:
-				#         cList.append({"document":doc})
-				#     jsonList.append(cluster)
-				# with open("clustering.json", "w") as jsonFile:
-				#     json.dumps(jsonList.jsonFile)
+			if not os.path.exists('answers/'+problem):
+				os.mkdir('answers/'+problem)
+			clusDict = defaultdict(list)
+			rankDict = defaultdict(list)
+			for i, cluster in enumerate(list(clusters)):
+				clusDict[cluster] .append({"document": docList[i]})
+				rankDict[cluster] .append(docList[i])
+			with open('answers/'+problem+'/clustering.json', "w") as jsonFile:
+				ujson.dump(list(clusDict.values()), jsonFile, indent=4)
+			rankList = []
+			for value in rankDict.values():
+				if len(value) > 1 :
+					pairs = combinations(value,2)
+				for pair in pairs:
+					rankList.append({"document1": pair[0], "document2": pair[1], "score":  1})
+			with open('answers/'+problem+'/ranking.json', "w") as jsonFile:
+				ujson.dump(rankList, jsonFile, indent=4)
 
 
 
