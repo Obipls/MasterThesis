@@ -1,0 +1,14 @@
+% Encoding: UTF-8
+
+@InProceedings{stamatatos:2016,
+  author    = {Efstathios Stamatatos and Michael Tschuggnall and Ben Verhoeven and Walter Daelemans and G{\"u}nther Specht and Benno Stein and Martin Potthast},
+  title     = {Clustering by Authorship Within and Across Documents},
+  booktitle = {Working Notes Papers of the CLEF 2016 Evaluation Labs},
+  year      = {2016},
+  series    = {CEUR Workshop Proceedings},
+  month     = sep,
+  publisher = {CLEF and CEUR-WS.org},
+  issn      = {1613-0073},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}

@@ -1,5 +1,6 @@
 [
  {"problem": "problem001",
+  "r": 0.7,
   "language": "en",
   "genre": "articles",
   "F-Bcubed":0.34887,
@@ -8,6 +9,7 @@
   "Av-Precision":0.016059},
 
  {"problem": "problem002",
+  "r": 0.5,
   "language": "en",
   "genre": "articles",
   "F-Bcubed":0.32886,
@@ -16,6 +18,7 @@
   "Av-Precision":0.038456},
 
  {"problem": "problem003",
+  "r": 0.9,
   "language": "en",
   "genre": "articles",
   "F-Bcubed":0.31122,
@@ -24,6 +27,7 @@
   "Av-Precision":0.0048168},
 
  {"problem": "problem004",
+  "r": 0.7,
   "language": "en",
   "genre": "reviews",
   "F-Bcubed":0.18049,
@@ -32,6 +36,7 @@
   "Av-Precision":0.014148},
 
  {"problem": "problem005",
+  "r": 0.9,
   "language": "en",
   "genre": "reviews",
   "F-Bcubed":0.18638,
@@ -40,6 +45,7 @@
   "Av-Precision":0.0088241},
 
  {"problem": "problem006",
+  "r": 0.5,
   "language": "en",
   "genre": "reviews",
   "F-Bcubed":0.26635,
@@ -48,6 +54,7 @@
   "Av-Precision":0.016096},
 
  {"problem": "problem007",
+  "r": 0.9,
   "language": "nl",
   "genre": "articles",
   "F-Bcubed":0.5605,
@@ -56,6 +63,7 @@
   "Av-Precision":0.0054945},
 
  {"problem": "problem008",
+  "r": 0.5,
   "language": "nl",
   "genre": "articles",
   "F-Bcubed":0.54546,
@@ -64,6 +72,7 @@
   "Av-Precision":0.0072206},
 
  {"problem": "problem009",
+  "r": 0.7,
   "language": "nl",
   "genre": "articles",
   "F-Bcubed":0.5381,
@@ -72,6 +81,7 @@
   "Av-Precision":0.0078323},
 
  {"problem": "problem010",
+  "r": 0.5,
   "language": "nl",
   "genre": "reviews",
   "F-Bcubed":0.39001,
@@ -80,6 +90,7 @@
   "Av-Precision":0.013815},
 
  {"problem": "problem011",
+  "r": 0.7,
   "language": "nl",
   "genre": "reviews",
   "F-Bcubed":0.36834,
@@ -88,6 +99,7 @@
   "Av-Precision":0.0071152},
 
  {"problem": "problem012",
+  "r": 0.9,
   "language": "nl",
   "genre": "reviews",
   "F-Bcubed":0.38825,
@@ -96,6 +108,7 @@
   "Av-Precision":0.0024587},
 
  {"problem": "problem013",
+  "r": 0.5,
   "language": "gr",
   "genre": "articles",
   "F-Bcubed":0.2857,
@@ -104,6 +117,7 @@
   "Av-Precision":0.038007},
 
  {"problem": "problem014",
+  "r": 0.7,
   "language": "gr",
   "genre": "articles",
   "F-Bcubed":0.32361,
@@ -112,6 +126,7 @@
   "Av-Precision":0.011601},
 
  {"problem": "problem015",
+  "r": 0.9,
   "language": "gr",
   "genre": "articles",
   "F-Bcubed":0.23009,
@@ -120,6 +135,7 @@
   "Av-Precision":0.0023708},
 
  {"problem": "problem016",
+  "r": 0.9,
   "language": "gr",
   "genre": "reviews",
   "F-Bcubed":0.46133,
@@ -128,6 +144,7 @@
   "Av-Precision":0},
 
  {"problem": "problem017",
+  "r": 0.5,
   "language": "gr",
   "genre": "reviews",
   "F-Bcubed":0.56537,
@@ -136,6 +153,7 @@
   "Av-Precision":0.050184},
 
  {"problem": "problem018",
+  "r": 0.7,
   "language": "gr",
   "genre": "reviews",
   "F-Bcubed":0.4958,

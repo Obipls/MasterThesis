@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<link rel="stylesheet" type="text/css" href="B4w_style.css" />
+<title>Bibtex4Word - Installation</title>
+<meta name="Template" content=
+"E:\Program Files\Microsoft Office\Office\html.dot">
+<base target="_self">
+<style type="text/css">
+.style1 {
+	list-style-type: lower-alpha;
+}
+.style2 {
+	list-style-type: lower-roman;
+}
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+<h1 align="left">Bibtex4Word - Installation</h1>
+<hr>
+<p align="left"><b>Contents:</b> <a href="#requirements">Requirements</a> -
+<a href="#Install">Installing&nbsp;Bibtex4Word</a> - <a href="#Uninstall">
+Uninstalling&nbsp;Bibtex4Word</a> - <a href="#Copyright">Copyright&nbsp;Notice</a></p>
+<p align="left"><b>Current Version:</b> V2835 - 2013-03-23</p>
+<hr>
+<h2><a name="requirements"></a>Requirements</h2>
+<p>To use Bibtex4Word, you must be using a PC (it does not work on a Mac) 
+running Word 2002 or later (32 or 64 bit) and you need to 
+install three pieces of free software:</p>
+<ol>
+  <li>A reference manager that will allow you to enter, or download, the 
+  citation details of a published document and which stores them in BibTeX 
+  format. There are several suitable reference managers available: I recommend 
+  <a href="http://jabref.sourceforge.net/">JabRef</a>.</li>
+  <li>The <a href="http://www.miktex.org/">MikTeX</a> wordprocessing package. This is a PC implementation of a 
+  wordprocessor called <a href="http://en.wikipedia.org/wiki/LaTeX">LaTeX</a>&nbsp; which includes the 
+  <a href="http://en.wikipedia.org/wiki/BibTeX">BibTeX</a> program as one of 
+  its components. We only use a tiny part of MikTeX but it is easiest to install 
+  the whole package.</li>
+  <li>The <a href="http://www.ee.ic.ac.uk/hp/staff/dmb/perl/bibtex4word.zip">Bibtex4Word</a> macro itself.</li>
+</ol>
+<h2><a name="Install"></a>Installation Steps</h2>
+<p>Installing Bibtex4Word is a bit involved but you only need do this once:</p>
+<ol>
+  <li>Install the latest version of&nbsp; MikTex from&nbsp;
+  <a href="http://www.miktex.org/">http://www.miktex.org/</a>.</li>
+  <li>Check that it installed correctly by opeining a command prompt window (<font face="Arial">Start&gt;&gt;All 
+  Programs&gt;&gt;Accessories&gt;&gt;Command Prompt</font>) and typing the command
+  <font face="Arial">bibtex</font>. You should receive a message saying
+  <font face="Arial">Need exactly one file argument</font>. If the message 
+  instead says <font face="Arial">'bibtex' is not recognized as an internal or 
+  external command</font> then MikTex has not been installed correctly.</li>
+  <li>Install a BibTex manager. I recommend JabRef (<a href="http://jabref.sourceforge.net/">http://jabref.sourceforge.net/</a>) 
+  but there are several others available.</li>
+  <li>Make hidden folders visible: <font face="Arial">Control Panel&gt;&gt;Folder 
+  Options&gt;&gt;Hidden files and folders&gt;&gt;Show hidden files and folders</font></li>
+  <li>Create a new folder in any convenient location and download the Bibtex4Word template file <font face="Arial">
+  <a href="bibtex4word.zip">bibtex4word.zip</a></font> into the folder.</li>
+  <li>In Windows explorer, right click <font face="Arial">bibtex4word.zip</font> 
+  and select <font face="Arial">explore</font>. Now drag all the files displayed 
+  into the folder you created in the previous step. These files include a 
+  complete copy of this documentation which you can open by double clicking on
+  <font face="Arial">index.html</font>. It also includes a number of 
+  demonstration files together with a sample Bibtex database.</li>
+  <li>Now copy the file, <font face="Arial">
+  Bibtex4Word.dot, </font>&nbsp;into the Word Startup folder given below for XP 
+  and Vista (where ***** is your user name):<br>
+  <b><span style="font-size: 12.0pt; font-family: Times New Roman">Windows XP:</span></b><span style="font-size: 12.0pt; font-family: Times New Roman">
+  </span><span style="font-family: Arial">C:\Documents and 
+  Settings\*****\Application Data\Microsoft\Word\STARTUP</span><span style="font-size: 12.0pt; font-family: Times New Roman"><br>
+  <b>Windows Vista:</b> </span><span style="font-family: Arial">
+  <a href="file:///C:/Users/*****/AppData/Roaming/Microsoft/Word/STARTUP">C:\Users\*****\AppData\Roaming\Microsoft\Word\STARTUP</a><br>
+	<span style="font-size: 12.0pt; font-family: Times New Roman">
+  <b>Windows 7:</b> </span>C:\Users\*****\AppData\Roaming\Microsoft\Word\STARTUP</span><br>
+  You will need to do this for each user of the computer. The location of these 
+	files seems to vary a bit in different countries.</li>
+	<li>In Windows 7, you now need to right-click <font face="Arial">
+  Bibtex4Word.dot,</font> and select Properties. In the General tab click the 
+	button near the bottom marked &quot;Unblock&quot; if it is not already greyed out.</li>
+	<li>If your operating system is <strong>Window7 64 bit</strong> you may need 
+	to do one or both of the following if the macro does not work initially (many many thanks to Karen Feigh and Uta Schwertel for getting this working):<ol class="style1">
+		<li>Ensure that Shell32.dll is accessible:<ol class="style2">
+			<li>Check that the file C:\Windows\SysWOW64\Shell32.dll exists</li>
+			<li>In the start menu type &quot;cmd&quot;, then right click on &quot;cmd.exe&quot; and 
+		select &quot;Run as administrator&quot;</li>
+			<li>At the cursor type &quot;cd \windows\syswow64&quot; then &quot;regsvr32 
+		shell32.dll&quot;</li>
+			<li>You should get a message confirming that registration has succeeded.</li>
+		</ol>
+		</li>
+		<li>Ensure the Word Object Library is enabled:<ol class="style2">
+			<li>Start Word</li>
+			<li>If the &quot;Developer&quot; tab is not visible, select 
+			Office-Button-&gt;Word-Options-&gt;Popular and select &quot;Show Developer 
+			tab 
+			in the Ribbon&quot;.</li>
+			<li>click the &quot;Developer&quot; tab then double-click &quot;Visual Basic&quot; on the 
+		developer ribbon</li>
+			<li>From the Visual Basic window, select the menu Tools-&gt;References and 
+		make sure that &quot;Microsoft Office xx.Object Library&quot; is checked, then 
+		click &quot;OK&quot; and then close the Visual Basic window.</li>
+		</ol>
+		</li>
+	</ol>
+	</li>
+	<li>If you are using <strong>TexLive</strong> instead of MikTex, you need to 
+	allow it to run BibTex from the TEMP folder by doing the following:<ol class="style1">
+		<li>
+		Set environment variable : <font face="Arial">BIBEXE = xxx\bin\win32\bibtex.exe</font> where <font face="Arial">xxx</font> 
+		is your TexLive folder (e.g. <font face="Arial">C:\texlive\2011</font>)</li>
+		<li>
+		Either one of the following:<ol class="style2">
+			<li>
+			Set environment variable : <font face="Arial">OPENOUT_ANY= &quot;r&quot;</font></li>
+			<li>
+			Add one line at the end of <font face="Arial">xxx\texmf.cnf</font>
+			containing <font face="Arial">OPENOUT_ANY = r</font></li>
+		</ol>
+		</li>
+	</ol>
+	</li>
+	<li>Start Word. If Word is already running, you must close all Word windows and restart it.</li>
+	<li>You should see the Bibtex4Word toolbar:<font face="Arial">
+	<img border="0" src="b4w_toolbar.png" width="135" height="20"></font>. In Word 
+  2007/2010 this is in the <font face="Arial">Add-Ins</font> ribbon.</li>
+	<li>Clicking on <img border="0" src="B4w_add.png" width="20" height="20"> 
+  brings up a window which includes the Bibtex4Word version number in the title. Click 
+  	<font face="Arial">cancel</font> to close the window.</li>
+	<li>From within Word, open the document <font face="Arial">Test4w.doc</font> 
+  from the folder you created in step 5. Follow the instructions in the document 
+  to verify that Bibtex4Word is operating correctly.</li>
+</ol>
+<h2><a name="Uninstall"></a>Uninstall Steps</h2>
+<ol>
+  <li>Delete Bibtex4Word.dot from the Word Startup folder used in step 6 above.</li>
+  <li>Delete the folder you created in step 5 above together with all its 
+  contents.</li>
+  <li>Remove MiKTex and JabRef using the normal windows procedure:<br>
+  <b>Windows XP:</b> <font face="Arial">Start-&gt;Setting-&gt;Control Panel-&gt;Add or 
+  Remove Programs</font><br>
+  <b>Windows Vista:</b> ??</li>
+</ol>
+<h2><a name="Copyright"></a>Copyright Notice</h2>
+<p>BibTex4Word is free software; you can redistribute it and/or modify it under 
+the terms of the GNU General Public License as published by the Free Software 
+Foundation; either version 2 of the License, or (at your option) any later 
+version. This program is distributed in the hope that it will be useful, but 
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more 
+details. You can obtain a copy of the GNU General Public License from
+<a href="ftp://prep.ai.mit.edu/pub/gnu/COPYING-2.0">
+ftp://prep.ai.mit.edu/pub/gnu/COPYING-2.0</a> or by writing to Free Software 
+Foundation, Inc.,675 Mass Ave, Cambridge, MA 02139, USA.</p>
+<hr>
+<address>This page is part of the <a href="b4w_intro.html">Bibtex4Word</a> 
+  				documentation. Copyright &copy; 2006-2013 <a href=
+"http://www.ee.ic.ac.uk/hp/staff/dmb/dmb.html">Mike Brookes</a>, Imperial
+College, London, UK. See the file <a href="gfl.html">gfl.html</a> for copying
+instructions. Please send any comments or suggestions to "mike.brookes" at
+"imperial.ac.uk".<br>
+Updated: $Id: b4w_install.html 2838 2013-03-23 11:08:26Z dmb $</address>
+<hr>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6956824-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+</body>
+</html>

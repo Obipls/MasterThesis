@@ -1,0 +1,653 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<title>Bibtex4Word - User Guide</title>
+<meta name="Template" content=
+"E:\Program Files\Microsoft Office\Office\html.dot">
+<link rel="stylesheet" type="text/css" href="B4w_style.css" />
+<style>
+<!--
+h3
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:3.0pt;
+	margin-left:0cm;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:Arial}
+ li.MsoNormal
+	{mso-style-parent:"";
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	margin-left:0cm; margin-right:0cm; margin-top:0cm}
+table.MsoTableGrid
+	{border:1.0pt solid windowtext;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	}
+.style1 {
+	font-family: Arial;
+	font-size: small;
+}
+.style2 {
+				font-family: Arial, Helvetica, sans-serif;
+}
+.style3 {
+				margin-left: 40px;
+}
+-->
+</style>
+<base target="_self">
+</head>
+<body link="#0000FF" vlink="#800080">
+<h1 align="left">Bibtex4Word - User Guide</h1>
+<hr>
+<p align="left"><b>Contents:</b> <a href="#Quick">Quick&nbsp;Start</a>&nbsp;- 
+<a href="#Citing">Citing&nbsp;References</a>&nbsp;- <a href="#Styles">BibTeX&nbsp;Styles</a> 
+= <a href="#Install">Installing&nbsp;New&nbsp;Styles</a> = <a href="#Sort">Sort&nbsp;Order</a> 
+= <a href="#Flags">Style&nbsp;Flags</a> = <a href="#Paragraph">Paragraph&nbsp;Formatting</a>&nbsp;- 
+<a href="#Defaults">Setting&nbsp;Defaults</a> - <a href="#save">Saving&nbsp;A&nbsp;Database</a></p>
+<hr>
+<h2><a name="Quick"></a>Quick Start</h2>
+<ol>
+  <li>Prepare a bibtex database file containing your references using JabRef or 
+  another reference manager.</li>
+  <li>Open the document in Word that you want to add citations to.</li>
+  <li>Press <img border="0" src="B4w_dbase.png" width="20" height="20">&nbsp;and 
+  navigate to your bibtex database file.</li>
+  <li>To add a citation, position the cursor at the appropriate place in your 
+  document and press <img border="0" src="B4w_add.png" width="20" height="20">. 
+  In the dialogue box that appears type one or more BibTeX keys separated by 
+  commas. Alternatively, you can right-click an entry in JabRef, select &quot;Copy 
+  Bibtex key&quot; and then paste it into the dialogue box. As the bibliography 
+  does not yet exist, the citation will be displayed as &quot;[&lt;bibtexkey&gt;]&quot;; this 
+  will be updated in the next step.</li>
+  <li>Position the cursor where you would like your bibliography to be (usually 
+	at the end of your document but definitely not adjacent to a citation)&nbsp; and press
+  <img border="0" src="B4w_make.png" width="20" height="20">&nbsp;to create it.</li>
+</ol>
+<hr>
+<h2><a name="Citing"></a>Citing References</h2>
+<p>To cite a reference, position the cursor at the appropriate place in the text 
+and press <img border="0" src="B4w_add.png" width="20" height="20">. You can now 
+type one or more BibTeX keys separated by commas. Initially, the citation will 
+be displayed as its BibTeX key, but this will change to the citation label when 
+you press
+  <img border="0" src="B4w_make.png" width="20" height="20">&nbsp;to create the 
+bibliography. You can display the&nbsp;BibTeX keys at any time by pressing the&nbsp; <img src="B4w_eye.png" border="0" width="20" height="20"> 
+button.</p>
+<h3><a name="Nocite"></a>Non-citing entries</h3>
+<p>If you precede a Bibtex key with &quot;/&quot; then the reference will be included in 
+the bibliography but not cited in the text. If all the citations in a list are 
+non-citing then the surrounding brackets will be omitted and the string will be 
+invisible unless the <img src="B4w_eye.png" border="0" width="20" height="20"> 
+button is pressed.</p>
+<h3><a name="Searching"></a>Searching for references</h3>
+<p>Bibtex4Word includes a primitive search facility which allows you to find 
+entries in the BibTeX database that contain specific words. Searches begin with 
+a <font face="Arial">@</font> or else <font face="Arial">x@</font> where x is one of
+<font face="Arial">a</font>, <font face="Arial">b</font>, <font face="Arial">t</font> or 
+<font face="Arial">j</font>. The BibTeX entries found by some 
+example searches are shown in the table below. If only a small number of matches 
+are found, they will be listed explicitly for you to select, if a large number 
+are found you will be asked to confirm that you want to include them all.</p>
+<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber1">
+  <tr>
+    <th width="28%" align="center">Search String</th>
+    <th width="72%">BibTeX entries found</th>
+  </tr>
+  <tr>
+    <td width="28%" align="center">
+    <span lang="EN-GB" style="font-size: 10.0pt; font-family: Arial">@ Smith Hot</span></td>
+    <td width="72%">All entries containing both Smith and Hot in any order.<br>
+    Searching is case insensitive and not restricted to whole words so Hot, hot 
+    and HOT are all equivalent and schott will also be found.</td>
+  </tr>
+  <tr>
+    <td width="28%" align="center">
+    <span lang="EN-GB" style="font-size: 10.0pt; font-family: Arial">a@ Smith</span></td>
+    <td width="72%">All entries with Smith in the author field</td>
+  </tr>
+  <tr>
+    <td width="28%" align="center">
+    <span lang="EN-GB" style="font-size: 10.0pt; font-family: Arial">a@ Smith t@ 
+    Hot</span></td>
+    <td width="72%">All entries with Smith in the author field and Hot in the 
+    title.</td>
+  </tr>
+  <tr>
+    <td width="28%" align="center">
+    <span lang="EN-GB" style="font-size: 10.0pt; font-family: Arial">t@ Hot Cold 
+    a@ Smith</span></td>
+    <td width="72%">All entries with Smith in the author field and Hot in the 
+    title and Cold in the title. Thus a field specifier a@ or t@ remains in 
+    force until another field specifier is encountered.</td>
+  </tr>
+  <tr>
+    <td width="28%" align="center">
+    <span lang="EN-GB" style="font-size: 10.0pt; font-family: Arial">b@ Hot @ 
+    Cold</span></td>
+    <td width="72%">All entries with Hot in the booktitle and Cold in any field.</td>
+  </tr>
+</table>
+<h2><a name="Styles"></a>Bibligraphy Style</h2>
+<p>The formatting of the bibliography and the way in which citations are 
+indicated in the text of your document are controlled by two things: (a) your 
+choice of BibTeX style and (b) your selection of style flags: these are 
+explained in detail below.</p>
+<h3><a name="Recommend"></a>Recommended style settings</h3>
+<p>The following three settings are the ones I use most often. They are written 
+in the form &quot;style/flags&quot; where the flags are specific to Bibtex4Word and affect 
+how the citations and bibliography appear. You will probably 
+have to install the styles into MikTeX before you can use them (<a href="#Install">see 
+below</a>).</p>
+<dl>
+  <dt><font face="Arial">abbrvnat/ndusch</font></dt>
+  <dd>is a good general purpose numeric style with labels of the form [1]. I 
+  like it because it includes <a href="http://www.doi.org/">DOI</a> 
+  references which I find useful. The <font face="Arial">&quot;n&quot;</font> flag forces 
+  numeric labels, the <font face="Arial">&quot;du&quot;</font> flags mean that DOI and URL 
+  lljnks will be turned into hyperlinks, the <font face="Arial">&quot;sc&quot;</font> flags 
+  mean that where multiple documents are cited at the same place in the text, 
+  their numeric references will be sorted and compressed (e.g. [5-9] instead of 
+  [5,6,7,8,9]) and, finally, the
+  <font face="Arial">&quot;h&quot;</font> flag means that each citation in the text is a 
+  hyperlink to the appropriate point in the bibliography. The style
+  <font face="Arial">abbrvnat</font> may be replaced by <font face="Arial">
+  plainnat</font> in order to show the full first names of authors instead of 
+  just their initials or by <font face="Arial">unsrtnat</font> which, as well as 
+  showing full first names, 
+  lists the bibliography in the order references are cited in the text instead of 
+  sorting it alphabetically by author.</dd>
+  <dt><font face="Arial">IEEEtranSA/ush</font></dt>
+  <dd>creates short mnemonics for the labels of the form [ABC01] which indicates 
+  the initial letters of the authors' surnames and the last two digits of the 
+  publication year. I like these because they are compact but yet remind me of 
+  the paper being cited. Unfortunately, this style does not support DOI fields 
+  although URL fields appear as hyperlinks. As in the previous example, the
+  <font face="Arial">&quot;sh&quot;</font> flags mean that multiple citations are sorted 
+	into the correct order and that each citation in the text is a 
+  hyperlink to the appropriate point in the bibliography. Substituting <font face="Arial">
+  alpha</font> for <font face="Arial">IEEEtranSA</font> gives a slightly less 
+  verbose bibliography entry.</dd>
+  <dt><font face="Arial">agsm/(l2ysh</font></dt>
+  <dd>is an example of the &quot;<a href="http://en.wikipedia.org/wiki/Harvard_referencing">Harvard</a>&quot; 
+  bibliography style with citations of the form (Smith et al. 2001); this style is widely used in medicine and other sciences. Here the flag 
+  &quot;<font face="Arial">(</font>&quot; specifies the use of parentheses rather than 
+  square brackets, the &quot;<font face="Arial">l</font>&quot; flag supresses the label from 
+  appearing in the bibliography and the &quot;<font face="Arial">2y</font>&quot; flag 
+  determines the date format (i.e. follow the author's name by a space and then 
+  the year of publication). With this style, long author lists will be 
+  abbreviated in the text as &quot;et al.&quot; but you can force the inclusion of all the 
+  author names by specifying the <font face="Arial">&quot;a&quot;</font> flag in addition. 
+  This style displays URL fields but cannot turn them into hyperlinks: if DOI/URL 
+  hyperlinks are important to you, 
+  you can use <font face="Arial">plainnat/(l2ydush</font> but I think the 
+  bibliography formatting is a bit less pretty.</dd>
+</dl>
+<h3><a name="Bibstyle"></a>BibTeX Style</h3>
+<p>The formatting of the bibliography and the way in which citations are 
+indicated in the text of your document are controlled by the &quot;bibtex style&quot;. 
+Thus, for example the same citation in styles &quot;IEEEtran&quot; and &quot;alpha&quot; would 
+appear in the bibliography as:</p>
+<ul>
+  <li>[1]&nbsp;&nbsp;&nbsp;A. Anon, B. B. Butt, and C. Chet, &quot;Marmalade Making,&quot; <i>
+  Jam Monthly</i>, vol. 2, no. 1, pp. 27-33, Jan. 2001. </li>
+  <li>[ABC01] &nbsp;&nbsp;&nbsp;Anne Anon, Bill B. Butt, and Chas Chet. Marmalade 
+  Making. <i>Jam Monthly</i>, 2(1):27-33, January 2001. </li>
+</ul>
+<p>where the differences include the use of first names, the quoting of the 
+title and the way in which the volume and issue numbers are shown. The initial 
+portion of the entry, enclosed in [...] is the &quot;label&quot; and will appear in the 
+text whenever the reference is cited. Most styles have numeric labels as with 
+the first example above while a few, known as alpha styles, have labels constructed from the 
+authors' names and the year of publication as in the second example; this 
+provides a useful mnemonic in the text. Some disciplines prefer &quot;Harvard&quot; styles 
+which include the author's name and publication year in the citation.</p>
+<p>To choose the style, press the
+<img src="B4w_format.png" border="0" width="20" height="20"> button and then 
+type in the name of the style you want to use. There are several hundred different 
+styles available in MiKTeX and it can be difficult to choose between them. A
+<a href="http://web.reed.edu/cis/Help/LaTeX/bibtexstyles.html">good guide</a> is 
+available from Reed College and an
+<a href="http://www.cs.stir.ac.uk/~kjt/software/latex/showbst.html">extensive 
+list</a> has been put together by Ken Turner. Most journals have their own 
+ready-made style which formats the references exactly as their editors' prefer.</p>
+<p>The Bibtex4Word package includes a Word document &quot;<font face="Arial">StyleTable.doc</font>&quot; 
+which lists a number of Bibtex styles. By following the instructions in this 
+document you can create your own style table that includes any styles you wish.</p>
+<h4><a name="Install"></a>Installing New Styles</h4>
+<p>Only a few styles are initially installed in MiKTeX, so if you want a 
+specific style, you will have to install it first as follows:</p>
+<ol>
+  <li>Open the MiKTeX package manager (<font face="Arial">Programs-&gt;MiKTeX x.y-&gt;Browse 
+  Packages</font>) </li>
+  <li>Type &quot;xxx.bst&quot; in the &quot;Filename:&quot; box where &quot;xxx&quot; is the style you want to 
+  install and click &quot;Filter&quot;. </li>
+  <li>If the package has not yet been installed, the column headed &quot;Installed 
+  on&quot; will be blank; right click the package and select &quot;Install&quot;. </li>
+  <li>You may need to change the server from which to download by selecting 
+  Repository-&gt;Change Repository: select &quot;Packages shall be installed from the 
+  Internet&quot;, click &quot;next&quot; and then select a  server from a nearby 
+  country.</li>
+</ol>
+<p>You can set MikTeX so that any missing style files will be installed 
+automatically as required. This sounds like a good idea, but I do not recommend 
+it for two reasons: (a) BibTex4Word will appear to freeze while the new style is 
+installed with no explanation of what is going on and (b) if the server that 
+you have chosen is broken, which happens quite often, BibTeX4Word will freeze 
+forever.</p>
+<h3><a name="Sort"></a>Sort Order</h3>
+<p>One of the ways in which styles differ is the order in which the cited 
+references are listed in the bibliography. References may be ordered by any 
+combination of: <b>A</b>=author, <b>C</b>=citation order within your document,
+<b>D</b>=publication date, <b>K</b>=BibTeX key, <b>L</b>=citation label used 
+within the text of your document and <b>T</b>=document title. The priority order 
+of these criteria used for some common styles is given below:</p>
+<table class="MsoTableGrid" style="border-style:solid; MARGIN-LEFT: 32.4pt; " cellSpacing="1" width="90%" border="0">
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 54px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><b><font size="3">AC</font></b></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 697px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">plainnat, abbrvnat</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 54px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><b><font size="3">ADC</font></b></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 697px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">jbact</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 54px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Times New Roman"><b>
+    <font size="3">ADTC</font></b></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 697px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">aaai-named, abbrv, acm, agsm, amsplain, 
+    annotation, apa, chicago, IEEEtrans, is-abbrv, is-plain, named, phrmp, 
+    plain, siam [and many more]</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 54px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><b><font size="3">C</font></b></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 697px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">IEEEtran, is-unsrt, nar, nature, phjcp, 
+    unsrt, unsrtnat</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 54px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><b><font size="3">DATC</font></b></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 697px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">plainyr</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 54px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><b><font size="3">K</font></b></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 697px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">abstract</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 54px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><b><font size="3">LDATC</font></b></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 697px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">alpha, annotate, IEEtranSA</font></td>
+  </tr>
+</table>
+<p>The Bibtex4Word package includes a Word document &quot;<font face="Arial">SortOrder.doc</font>&quot; 
+which allows you to determine the bibliography sort order for any Bibtex styles. 
+Instructions for doing so are included in the document itself.</p>
+<h3><a name="Flags"></a>Style Flags</h3>
+<p><span style="FONT-FAMILY: Times New Roman">The selected style can be modified 
+by the inclusion of one or more style flags following the bibtex style e.g.
+</span><span style="FONT-FAMILY: Arial">BIBSTYLE=alpha/n.</span><span style="FONT-FAMILY: Times New Roman"> 
+You can have as many style flags as you want following the &quot;/&quot; character. The 
+table below lists the available style flags; some flags are preceded by an 
+optional integer, <i>n</i>, whose meaning is explained in the table; if <i>n</i> 
+is omitted it is taken to equal 1 unless otherwise specified. Specific styles to which an option applies 
+are shown in brackets.</span></p>
+<p><span style="FONT-FAMILY: Times New Roman">The following flags affect how 
+references appear in the bibliography:</span></p>
+<table class="MsoTableGrid" style="border-style:solid; MARGIN-LEFT: 32.4pt; " cellSpacing="1" width="90%" border="0">
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">a</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Use full instead of abbreviated author 
+    names in label [<span style="FONT-FAMILY: Arial">chicago</span>,
+    <span style="FONT-FAMILY: Arial">named</span>,
+    <span style="FONT-FAMILY: Arial">plainnat, agsm</span>]</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">d</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Convert DOI references into hyperlinks [<span style="FONT-FAMILY: Arial">plainnat</span>]</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><i><font size="3">n</font></i><span style="FONT-FAMILY: Arial"><font size="3">f</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Insert a line feed in the bibliography 
+    after any label that is more than <i>n</i> characters long.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <font size="3"><span style="font-family: Arial">l</span></font></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <font size="3">[lower case &quot;L&quot;] Omit the labels from the bibliography entries (normally 
+    needed for Harvard style bibliographies). If this option appears not to 
+	work, you may need to turn off &quot;hidden text&quot;; to turn off hidden text select 
+	Tools&gt;&gt;Options&gt;&gt;View (Word 2003) of Office-Button&gt;&gt;Word-Options&gt;&gt;Display 
+	(Word 2007) and make sure that both &quot;Hidden Text&quot; and &quot;All&quot; are unchecked.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <i><font size="3">n</font></i><span class="style1">m</span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <i><font size="3">n</font></i><font size="3"> gives number of 
+	cross-references (instead of the normal 2) needed to trigger insertion of 
+	the parent entry into the bibliography&nbsp; [default <i>n</i>=999].</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">n</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Force the reference list to be numbered 
+    even if the bibtex style normally uses labels based on author names.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><i><font size="3">n</font></i><span style="FONT-FAMILY: Arial"><font size="3">u</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Convert URLs into hyperlinks [<span style="FONT-FAMILY: Arial">plainnat, 
+    ieeetran</span>]<br>
+    <i>n</i> is the sum of the following options: 1=convert to hyperlinks 
+    [default], 2=do not insert discretionary hyphens after each &quot;/&quot; character, 
+    4=replace the url with the text &quot;&lt;url&gt;&quot;</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">]</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Omit the square brackets from the 
+    bibliography label.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">)</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Use parentheses instead of square 
+    brackets in the bibliography.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">.</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Omit the square brackets from the 
+    bibliography and follow the label with a &quot;.&quot; instead.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><i><font size="3">n</font></i><span style="FONT-FAMILY: Arial"><font size="3">~</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Put <i>n</i> non-breaking spaces after 
+    the bibliography label in place of a tab.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <font size="3"><i>n</i><span style="font-family: Arial">&amp;</span></font></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 715px; PADDING-TOP: 0cm" vAlign="top">
+    <font size="3">Select the form of &quot;and&quot; in the author list for harvard 
+    styles [<span style="FONT-FAMILY: Arial">agsm</span>]. 0 = &quot;&amp;&quot; [default], 
+    1=&quot;and&quot;, 2=&quot;et&quot;, 3=&quot;en&quot;, 4=&quot;und&quot;.</font></td>
+  </tr>
+</table>
+<p><span style="FONT-FAMILY: Times New Roman">The following flags affect how 
+references are cited in the text of the document:</span></p>
+<table class="MsoTableGrid" style="border-style:solid; MARGIN-LEFT: 32.4pt; " cellSpacing="1" width="90%" border="0">
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">c</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Compress cited references by writing 
+    [1-4] instead of [1, 2, 3, 4]. Normally used in combination with the
+    <span style="FONT-FAMILY: Arial">s</span> option.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">h</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Make the citations into clickable 
+    hyperlinks that take you to the corresponding entry in the bibliography. To 
+    return to the text type &quot;Alt+Left Arrow&quot; or use the back button on the &quot;Web&quot; 
+    toolbar if it is displayed.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">s</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Sort the references in a citation list 
+    thereby writing [1,2,3,4] instead of [2,4,1,3]. Often used in combination 
+    with the <span style="FONT-FAMILY: Arial">c</span> option.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <i><font size="3">n</font></i><span style="FONT-FAMILY: Arial"><font size="3">y</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <font size="3">year formatting in the label [<span style="FONT-FAMILY: Arial">chicago</span>,
+    <span style="FONT-FAMILY: Arial">named</span>,
+    <span style="FONT-FAMILY: Arial">plainnat, agsm</span>]<br>
+    <i>n</i>: 0=&quot;Smith (2000)&quot;; &quot;1=Smith&quot;; 2=&quot;Smith 2000&quot;; 3=&quot;Smith, 2000&quot;; 
+    4=&quot;(2000)&quot;; 5=&quot;2000&quot;</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">[</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Omit the square brackets surrounding the 
+    citation.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">(</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Use parentheses instead of square 
+    brackets to surround the citation.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">^</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Write citation list as superscript like 
+    this<sup>1,2,3</sup>.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">,</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Omit spaces after commas in the citation 
+    list e.g [1,2,3] rather than [1, 2, 3]</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">;</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Use semicolons instead of commas in the 
+    citation list.</font></td>
+  </tr>
+</table>
+<p><span style="FONT-FAMILY: Times New Roman">The following flags affect the 
+system operation:</span></p>
+<table class="MsoTableGrid" style="border-style:solid; MARGIN-LEFT: 32.4pt; " cellSpacing="1" width="90%" border="0">
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <span style="FONT-FAMILY: Arial"><font size="3">b</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <font size="3">Instead of scanning the citations in the 
+    document, use an existing file in the same folder as the document with name
+    <span style="FONT-FAMILY: Arial">****.bbl</span> where
+    <span style="FONT-FAMILY: Arial">****</span> is the name of the document.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <i><font size="3">n</font></i><font size="3"><span style="font-family: Arial">p</span></font></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <font size="3">Set the code page of the bibtex database. If no
+    <font face="Arial">p</font> flag is given, the ANSI code page of your system 
+    locale will be used. If <i>n</i> is omitted, it is taken to be 65001 which 
+    corresponds to UTF8 encoding.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <i><font size="3">n</font></i><span style="FONT-FAMILY: Arial"><font size="3">t</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <font size="3">Create a style table. The last table in 
+    the document is assumed to contain a list of styles in the first column; the 
+    formatted output will be placed in the last column. The first <i>n</i> lines 
+    are assumed to contain header information. If the style in the first column 
+    omits either the style name or the style flags, then the corresponding 
+    values will be taken from the main style specification.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal">
+    <i><font size="3">n</font></i><font size="3"><span style="font-family: Arial">z</span></font></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3"><i>n</i> is the sum of any combination 
+    of: 1=allow undo to reverse changes made to a bibliography (this may result 
+    in &quot;insufficient memory&quot; warnings&quot;); 2=always save bibtex 
+    database filename as a full path (the default is to save it as a relative 
+    path if it is in or below the folder containing your word document)</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <i><font size="3">n</font></i><font size="3"><span style="font-family: Arial">#</span></font></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <font size="3">Indicate special features of the bibtex style; <i>n</i> is 
+    the sum of any combination of: 1=bibitem entries use the natbib format; 2=citeauthoryear 
+    command uses the chicago format.<br>
+    The default value depends on the bibtex style selected: 0 for most syles, 1 
+    for abbrvnat, elsarticle-harv, plainnat, unsrtnat; 2 for chicago.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <span style="FONT-FAMILY: Arial"><font size="3">+</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <font size="3">Use bibtex8, the extended version of bibtex instead of the 
+    normal version. This flag will be ignored if the BIBEXE environment variable 
+	is set.</font></td>
+  </tr>
+  </table>
+<p>&nbsp;&nbsp;<span style="FONT-FAMILY: Times New Roman">There are some special 
+&quot;style commands&quot; which can be entered instead of a style.</span></p>
+<table class="MsoTableGrid" style="border-style:solid; MARGIN-LEFT: 32.4pt; " cellSpacing="1" width="90%" border="0">
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><span style="FONT-FAMILY: Arial"><font size="3">//b</font></span></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Open the BibTeX database. The style is 
+    not changed.</font></td>
+  </tr>
+  <tr>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 35px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3"><span style="font-family: Arial">//t</span></font></td>
+    <td style="PADDING-RIGHT: 5.4pt; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0cm; WIDTH: 564px; PADDING-TOP: 0cm" vAlign="top">
+    <p class="MsoNormal"><font size="3">Use notepad to open the four temporary 
+    files that BibTex4Word uses. These files contain useful information if it 
+    becomes necessary to figure out why something is not working. The style is 
+    not changed. The files are<br>
+    (a)&nbsp;<span style="font-family: Arial">bibtex4word.aux</span>, 
+    a list of the citations found in the document,<br>
+    (b)&nbsp;<span style="font-family: Arial">bibtex4word.blg</span>, 
+    a list of error and status messages from BibTeX,<br>
+    (c)&nbsp;<span style="font-family: Arial">bibtex4word.log</span>, 
+    a list of error and status messages from BibTex4Word and<br>
+    (d)&nbsp;<span style="font-family: Arial">bibtex4word.bbl</span>, 
+    the contents of the bibliography in LaTeX format which BibTex4Word converts 
+    into Word and writes to your document.</font></td>
+  </tr>
+  </table>
+<h3><a name="Paragraph"></a>Paragraph Formatting</h3>
+<p>To select the character and paragraph formatting of the bibliography, select 
+the entire first entry (conveniently by double-clicking in the left margin) and 
+apply whatever formatting you wish. Click on
+  <img border="0" src="B4w_make.png" width="20" height="20">&nbsp;again to rewrite the entire 
+bibliography in your chosen format. It is often convenient to include a hanging 
+indent in the format; Bibtex4Word will, by default, put a Tab character after 
+printing the label.</p>
+<h2><a name="Defaults"></a>Setting a Default Database and Style</h2>
+<h3><a name="Environemnt"></a>Default Style and BibTeX Database</h3>
+<p>If you always use the same BibTeX database and the same style, it is annoying 
+to have to define them afresh for each new document. You can define the default 
+values for these as environment variables.</p>
+<dl>
+  <dt><font face="Arial">BIBFILE</font> </dt>
+  <dd>Defines the default bibtex database (e.g. <font face="Arial">BIBFILE=C:\data\file.bib</font>)
+  </dd>
+  <dt><font face="Arial">BIBSTYLE</font> </dt>
+  <dd>Defines the default bibtex style, style flags and &quot;magic&quot; characters (e.g.
+  <font face="Arial">BIBSTYLE=plainnat/ndu @/</font>). The &quot;magic&quot; characters 
+  are discussed <a href="b4w_reference.html#magic">elsewhere</a>; you will not normally need to change them. </dd>
+				<dt class="style2">BIBEXE</dt>
+				<dd>Defines the bibtex executable program (e.g. 
+				<span class="style2">BIBEXE=C:\Program Files\MiKTeX 2.8\miktex\bin\bibtex.exe</span>). 
+				Setting this environment variable overrides the &quot;+&quot; style flag 
+				and is only necessary if you have problems with the call to 
+				BibTeX.</dd>
+				<dt class="style2">BIBTEMP</dt>
+				<dd>Defines the folder that Bibtex4Word will use for temporary 
+				file (e.g. 
+				<span class="style2">BIBTEMP=C:\xxx\dirname</span>). It is only necessary to set this explicitly 
+				if, for some reason, you don't have a writable system temporary 
+				folder defined already.</dd>
+</dl>
+<p>To define any or all of these environment variables, do the following:</p>
+<blockquote>
+  <p><b>Windows XP</b>: Start&gt;&gt;Settings&gt;&gt;Control Panel&gt;&gt; System&gt;&gt;Advanced&gt;&gt;Enviromental 
+  Variables&gt;&gt;User Variables&gt;&gt;New<br>
+  <b>Windows Vista</b>: ??<br>
+	<strong>Windows 7</strong>: Start&gt;&gt;Control Panel&gt;&gt;System and Secutiry&gt;&gt;System&gt;&gt;Advanced 
+	System Settings&gt;&gt;Environment Variables&gt;&gt;User Variables&gt;&gt;New</p>
+</blockquote>
+<p class="style3">You can shortcircuit several of these steps by right-clicking 
+&quot;My Computer&quot; on the desktop and selecting &quot;Properties&quot;.</p>
+<h3><a name="DefParagraph"></a>Default Paragraph Formatting</h3>
+<p>Default formatting of the bibliography (font, font size, intenting etc) can 
+be specified by creating a &quot;Word Style&quot;; this is nothing whatsoever to do with a 
+BibTeX style. You can define a default Word Style called <font face="Arial">
+Bibtex</font> (<b>Windows XP</b>: <font face="Arial">Format&gt;Styles and 
+Formatting&gt;New Style</font>) with the style features of your choice. You can 
+define different formatting for different BibTeX styles by defining
+<font face="Arial">Bibtex plain</font>, <font face="Arial">Bibtex alpha</font> 
+etc where the BibTeX style name is separated from the word Bibtex by a space.</p>
+<h2><a name="save"></a>Creating a BibTeX database for the document</h2>
+<p>If you click <img border="0" src="B4w_save.png" width="20" height="20">, you 
+can create a small BibTeX database containing only the references that are cited 
+in your document. This is useful if you want to send your document to someone 
+else to edit. For obscure Microsoft reasons (or my incompetence as a Visual 
+Basic programmer), the file dialog box has to use one of the standard Word file 
+extensions (I have chosen .MHT) but the file will nevertheless be saved with the 
+correct .BIB extension. A side-effect of this is that you will not be able to 
+see whether or not the file you specify exists already. You will however be 
+warned before overwriting an existing file.</p>
+<hr>
+<address>This page is part of the <a href="b4w_intro.html">Bibtex4Word</a> 
+  				documentation. Copyright &copy; 2006-2013 <a href=
+"http://www.ee.ic.ac.uk/hp/staff/dmb/dmb.html">Mike Brookes</a>, Imperial
+College, London, UK. See the file <a href="gfl.html">gfl.html</a> for copying
+instructions. Please send any comments or suggestions to "mike.brookes" at
+"imperial.ac.uk".<br>
+Updated: $Id: b4w_using.html 2836 2013-03-23 09:53:32Z dmb $</address>
+<hr>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6956824-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+</body>
+</html>
