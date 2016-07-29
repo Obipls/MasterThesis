@@ -7,6 +7,9 @@
             "document":"document0006.txt"
         },
         {
+            "document":"document0034.txt"
+        },
+        {
             "document":"document0044.txt"
         },
         {
@@ -19,10 +22,16 @@
             "document":"document0030.txt"
         },
         {
+            "document":"document0024.txt"
+        },
+        {
             "document":"document0033.txt"
         },
         {
             "document":"document0008.txt"
+        },
+        {
+            "document":"document0040.txt"
         },
         {
             "document":"document0038.txt"
@@ -49,6 +58,9 @@
             "document":"document0007.txt"
         },
         {
+            "document":"document0028.txt"
+        },
+        {
             "document":"document0001.txt"
         },
         {
@@ -56,6 +68,9 @@
         },
         {
             "document":"document0037.txt"
+        },
+        {
+            "document":"document0017.txt"
         },
         {
             "document":"document0043.txt"
@@ -67,7 +82,13 @@
             "document":"document0045.txt"
         },
         {
+            "document":"document0023.txt"
+        },
+        {
             "document":"document0027.txt"
+        },
+        {
+            "document":"document0035.txt"
         },
         {
             "document":"document0010.txt"
@@ -115,6 +136,9 @@
             "document":"document0036.txt"
         },
         {
+            "document":"document0022.txt"
+        },
+        {
             "document":"document0012.txt"
         },
         {
@@ -122,51 +146,9 @@
         },
         {
             "document":"document0050.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0022.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0040.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0034.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0035.txt"
-        }
-    ],
-    [
+        },
         {
             "document":"document0020.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0023.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0024.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0028.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0017.txt"
         }
     ]
 ]

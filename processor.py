@@ -13,6 +13,8 @@ from progressbar import ProgressBar
 from clusterer import KMclusterer, MSclusterer
 from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
+import time
+
 
 def preprop(token,greek):
 	# Replace all quotes to a single one
@@ -113,7 +115,6 @@ def main():
 				if pair in cList:
 					match = True
 				nnDict[pair] = match
-
 			for i, doc in enumerate(docMatrix):
 				docDict[docList[i]] = doc
 
@@ -134,7 +135,8 @@ def main():
 							combo = (docList[clusterpair[0]],docList[clusterpair[1]])
 							clusterCount[combo] +=1
 			else:
-				clusters = MSclusterer(cMatrix)
+				clusters = KMclusterer(int(len(docMatrix)*0.67),docMatrix)
+				#clusters = MSclusterer(cMatrix)#cMatrixdocMatrix
 				for clusterpair in list(combinations([i for i,x in enumerate(clusters)],2)):
 					combo = (docList[clusterpair[0]],docList[clusterpair[1]])
 					clusterCount[combo] +=1
@@ -195,4 +197,6 @@ def main():
 
 
 if __name__ == '__main__':
+	start_time = time.time()
 	main()
+	print("--- %s seconds ---" % (time.time() - start_time))

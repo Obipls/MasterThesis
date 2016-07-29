@@ -28,6 +28,9 @@
             "document":"document0030.txt"
         },
         {
+            "document":"document0024.txt"
+        },
+        {
             "document":"document0033.txt"
         },
         {
@@ -52,6 +55,9 @@
             "document":"document0062.txt"
         },
         {
+            "document":"document0077.txt"
+        },
+        {
             "document":"document0038.txt"
         },
         {
@@ -71,6 +77,9 @@
         },
         {
             "document":"document0060.txt"
+        },
+        {
+            "document":"document0048.txt"
         },
         {
             "document":"document0016.txt"
@@ -94,6 +103,9 @@
             "document":"document0026.txt"
         },
         {
+            "document":"document0037.txt"
+        },
+        {
             "document":"document0017.txt"
         },
         {
@@ -103,7 +115,13 @@
             "document":"document0047.txt"
         },
         {
+            "document":"document0052.txt"
+        },
+        {
             "document":"document0045.txt"
+        },
+        {
+            "document":"document0023.txt"
         },
         {
             "document":"document0076.txt"
@@ -119,6 +137,9 @@
         },
         {
             "document":"document0010.txt"
+        },
+        {
+            "document":"document0013.txt"
         },
         {
             "document":"document0031.txt"
@@ -169,6 +190,9 @@
             "document":"document0042.txt"
         },
         {
+            "document":"document0004.txt"
+        },
+        {
             "document":"document0011.txt"
         },
         {
@@ -182,6 +206,9 @@
         },
         {
             "document":"document0080.txt"
+        },
+        {
+            "document":"document0022.txt"
         },
         {
             "document":"document0012.txt"
@@ -199,6 +226,9 @@
             "document":"document0050.txt"
         },
         {
+            "document":"document0064.txt"
+        },
+        {
             "document":"document0020.txt"
         },
         {
@@ -209,56 +239,6 @@
         },
         {
             "document":"document0061.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0048.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0013.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0004.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0023.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0077.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0064.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0024.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0037.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0052.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0022.txt"
         }
     ]
 ]

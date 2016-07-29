@@ -70,6 +70,9 @@
             "document":"document0026.txt"
         },
         {
+            "document":"document0037.txt"
+        },
+        {
             "document":"document0017.txt"
         },
         {
@@ -118,16 +121,25 @@
             "document":"document0055.txt"
         },
         {
+            "document":"document0019.txt"
+        },
+        {
             "document":"document0005.txt"
         },
         {
             "document":"document0009.txt"
         },
         {
+            "document":"document0042.txt"
+        },
+        {
             "document":"document0004.txt"
         },
         {
             "document":"document0011.txt"
+        },
+        {
+            "document":"document0002.txt"
         },
         {
             "document":"document0053.txt"
@@ -142,40 +154,16 @@
             "document":"document0012.txt"
         },
         {
+            "document":"document0014.txt"
+        },
+        {
             "document":"document0050.txt"
         },
         {
-            "document":"document0054.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0042.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0037.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0002.txt"
-        }
-    ],
-    [
-        {
             "document":"document0020.txt"
-        }
-    ],
-    [
+        },
         {
-            "document":"document0014.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0019.txt"
+            "document":"document0054.txt"
         }
     ]
 ]

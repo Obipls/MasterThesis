@@ -1,6 +1,9 @@
 [
     [
         {
+            "document":"document0032.txt"
+        },
+        {
             "document":"document0006.txt"
         },
         {
@@ -8,6 +11,9 @@
         },
         {
             "document":"document0044.txt"
+        },
+        {
+            "document":"document0015.txt"
         },
         {
             "document":"document0021.txt"
@@ -25,6 +31,9 @@
             "document":"document0008.txt"
         },
         {
+            "document":"document0051.txt"
+        },
+        {
             "document":"document0040.txt"
         },
         {
@@ -32,6 +41,9 @@
         },
         {
             "document":"document0049.txt"
+        },
+        {
+            "document":"document0041.txt"
         },
         {
             "document":"document0003.txt"
@@ -91,6 +103,9 @@
             "document":"document0013.txt"
         },
         {
+            "document":"document0031.txt"
+        },
+        {
             "document":"document0046.txt"
         },
         {
@@ -109,6 +124,9 @@
             "document":"document0019.txt"
         },
         {
+            "document":"document0005.txt"
+        },
+        {
             "document":"document0009.txt"
         },
         {
@@ -116,6 +134,9 @@
         },
         {
             "document":"document0004.txt"
+        },
+        {
+            "document":"document0011.txt"
         },
         {
             "document":"document0002.txt"
@@ -133,55 +154,16 @@
             "document":"document0012.txt"
         },
         {
+            "document":"document0014.txt"
+        },
+        {
             "document":"document0050.txt"
         },
         {
-            "document":"document0054.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0032.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0031.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0011.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0051.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0014.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0015.txt"
-        }
-    ],
-    [
-        {
-            "document":"document0041.txt"
-        }
-    ],
-    [
-        {
             "document":"document0020.txt"
-        }
-    ],
-    [
+        },
         {
-            "document":"document0005.txt"
+            "document":"document0054.txt"
         }
     ]
 ]
