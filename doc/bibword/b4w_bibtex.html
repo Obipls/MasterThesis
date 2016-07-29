@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<title>Bibtex4Word - BibTeX Database</title>
+<meta name="Template" content=
+"E:\Program Files\Microsoft Office\Office\html.dot">
+<link rel="stylesheet" type="text/css" href="B4w_style.css" />
+<base target="_self">
+</head>
+<body link="#0000FF" vlink="#800080">
+<h1 align="left">Bibtex4Word - BibTeX Database</h1>
+<hr>
+<p align="left"><b>Contents:</b> <a href="#Intro">Introduction</a> -
+<a href="#Types">Publication&nbsp;Types</a> - <a href="#Fields">Fields</a> -
+<a href="#Names">Entering&nbsp;Names</a> - <a href="#Strings">Strings</a> -
+<a href="#Special">Special&nbsp;Characters</a></p>
+<hr>
+<h2><a name="Intro"></a>Introduction</h2>
+<p>A BibTeX database stores information about published references in a file 
+having the extension <font face="Arial">.bib</font>. It is possible to edit the 
+database file directly with a text editor but much easier to use a database 
+manager such as <a href="http://jabref.sourceforge.net/">Jabref</a>. In this 
+section I give an incomplete description of how to enter references aimed at 
+those who are unfamiliar with BibTeX. If you know enough to disagree with 
+anything I say, you know enough to make up your own mind.</p>
+<p>More complete descriptions of how to use BibTeX are available online:</p>
+<ul>
+  <li>Wikipedia has an entry on <a href="http://en.wikipedia.org/wiki/BibTeX">
+  BibTeX</a>.</li>
+  <li>&quot;<a href="ftp://ftp.tex.ac.uk/tex-archive/biblio/bibtex/contrib/doc/btxFAQ.pdf">BibTeX 
+  Tips and FAQ</a>&quot; has a list of helpful tips for using BibTeX.</li>
+  <li>&quot;<a href="ftp://ftp.tex.ac.uk/tex-archive/info/bibtex/tamethebeast/ttb_en.pdf">Tame 
+  the Beast</a>&quot;&nbsp; is a 45 page description that explains everything about 
+  BibTeX including how the style files work. Part 3 of the document describes 
+  the database entries in great detail.</li>
+  <li>&quot;<a href="ftp://tug.ctan.org/pub/tex-archive/macros/latex/contrib/IEEEtran/bibtex/IEEEtran_bst_HOWTO.pdf">How 
+  to use the IEEEtran BibTeX Style</a>&quot; explains one particular style used for 
+  electronic engineering publications. This style supports four new types of 
+  publication that most other styles cannot yet cope with: electronic, patent, 
+  periodical and standard.</li>
+  <li>&quot;<a href="http://www.ctex.org/documents/packages/bibref/makebst.pdf">Customizing 
+  Bibliographic Style Files</a>&quot; explains how to create your own Bibtex style 
+  if, for some reason, you are unsatisfied with any of the hundreds that exist 
+  already.</li>
+</ul>
+<h2><a name="Types"></a>Publication Types</h2>
+<p>A BibTeX database file contains an <i>entry</i> for each publication and can 
+contain hundreds of separate entries. Some people have different database files 
+for different topic areas while others, including me, find it more convenient to have one 
+massive file 
+containing all the publications they have ever looked at.</p>
+<p>Each entry can be any one of nineteen different publication types. The most 
+useful of these are</p>
+<blockquote>
+  <dl>
+    <dt>article</dt>
+    <dd>a paper published in a journal</dd>
+    <dt>book</dt>
+    <dd>used for a book. This can be either an &quot;authored book&quot; written entirely 
+    by a single group of authors or else and &quot;edited book&quot; with different 
+    authors for each chapter.</dd>
+    <dt>inbook</dt>
+    <dd>a chapter or other section of an authored book</dd>
+    <dt>incollection</dt>
+    <dd>a chapter of an edited book</dd>
+    <dt>inproceedings</dt>
+    <dd>a paper presented at a conference</dd>
+  </dl>
+</blockquote>
+<p>To add a new entry in JabRef, you click the <font face="Arial">&quot;+&quot;</font> 
+button and then select which entry type to use. If you make a mistake, you can 
+change the entry type later by right clicking on an entry and selecting
+<font face="Arial">Change entry type</font>.</p>
+<h2><a name="Fields"></a>Fields</h2>
+<p>Information about each entry is given in different fields of which the most 
+important are listed below. <b>Do read through this list</b> at least once because some 
+of the information is non-obvious and changing it all after entering loads of 
+references is a great nuisance.</p>
+<dl>
+  <dt>bibtexkey</dt>
+  <dd>is a short name that is used to refer to a publication within BibTeX and 
+  does not usually appear in the bibliography or citation. Each entry must have 
+  a unique bibtexkey that is different from all others in the database and must 
+	not contain spaces or any of the following ten characters: &quot;@',\#}{~%. My 
+  preference is to use the last name of the first author followed by the date of 
+  publication and, if necessary to make it distinct, a letter a to z. An example 
+  of this would be &quot;Einstein1905a&quot;.</dd>
+  <dt>author</dt>
+  <dd>A list of author names with the word &quot;<font face="Arial">and</font>&quot; between each, 
+  e.g.&nbsp; <font face="Arial">John Flamsteed and Edmond Halley and James Bradley</font>. You can have as many authors as 
+  you like. If you get bored, you can end the list with &quot;<font face="Arial">and others</font>&quot; but it is 
+  best to enter all the names. You should put in their full names (as they 
+  themselves like to be called) and let the BibTeX style choose whether to abbreviate them 
+  by using only their initials (e.g. styles <font face="Arial">abbrv</font> or
+  <font face="Arial">abbrvnat</font>).</dd>
+  <dt>editor</dt>
+  <dd>A list of editor names for &quot;edited books&quot; and, occasionally, for 
+  conferences. As with the author list, multiple editors are separated by the 
+  word &quot;<font face="Arial">and</font>&quot;.</dd>
+  <dt>title</dt>
+  <dd>gives the name of the article, chapter or book. For books, you should also 
+  complete the <font face="Arial">booktitle</font> field with the same information in order to make cross 
+  references work correctly. BibTeX ignores any capitalization in the title 
+  field and each BibTeX style imposes its own capitalization scheme. If you put 
+  braces around any acronyms as in &quot;The {NATO} Organization&quot; then the capitals 
+  within the braces will be left alone.</dd>
+  <dt>booktitle</dt>
+  <dd>should be the same as the title field for books. For <font face="Arial">inproceedings</font> types, 
+  it should be the proceedings of the conference e.g. &quot;Proc. International 
+  Juggling Convention&quot;. You should include a period after abbreviations 
+  unless they include the final letter of the word being abbreviated.</dd>
+  <dt>journal</dt>
+  <dd>gives the name of the journal containing an article</dd>
+  <dt>volume</dt>
+  <dd>gives the volume number for a journal</dd>
+  <dt>number</dt>
+  <dd>academic journals usually publish several issues in a year which make up 
+  one &quot;volume&quot;; this field gives the issue number within the volume.</dd>
+  <dt>pages</dt>
+  <dd>gives the range of page numbers in the form &quot;23-56&quot;.</dd>
+  <dt>year</dt>
+  <dd>gives the year as a 4-digit number.</dd>
+  <dt>month</dt>
+  <dd>gives the month. In JabRef, this should <b>always</b> be entered as a 3 letter 
+  lower-case abbreviation surrounded by hash signs, e.g. #jan#. The BibTeX style 
+  will convert this into the appropriate form for the bibliography.</dd>
+  <dt>address</dt>
+  <dd>for <font face="Arial">inproceedings</font> entries, it is normal to give the name of the city 
+  that hosted the conference. For <font face="Arial">book</font> entries, some people like to include the 
+  publisher's city.</dd>
+  <dt>crossref</dt>
+  <dd>for the <font face="Arial">inbook</font> and <font face="Arial">incollection</font> types of publication, you should first 
+  make an entry for the complete book and then type its <font face="Arial">bibtexkey</font> in the 
+  <font face="Arial">crossref</font> field of any <font face="Arial">inbook</font> and 
+  <font face="Arial">incollection</font> entries that refer to part of 
+  the book. It is 
+  then not necessary to re-enter any information (e.g. publisher and date of 
+  publication) that is the same for all sections of the book.</dd>
+  <dt>doi</dt>
+  <dd>a short string, looking something like 10.1109/CVPR.2006.95, that uniquely 
+  identifies a publication and that is guaranteed by the publisher never to 
+  change. Several styles (e.g. <font face="Arial">plainnat</font>, 
+  <font face="Arial">abbrvnat</font>) will convert this into a 
+  clickable hyperlink if the <font face="Arial">d </font>style flag is specified.</dd>
+  <dt>url</dt>
+  <dd>a web link pointing to the publication. These are not as good as doi links 
+  because they often change over time.</dd>
+  <dt>isbn</dt>
+  <dd>gives the ISBN number for a book.</dd>
+</dl>
+<h2><a name="Names"></a>Entering Names</h2>
+<p>There are three ways of entering names which are distinguished by the number 
+of commas included (zero, one or two):</p>
+<ol>
+  <li><font face="Arial">Dwight D. Eisenhower</font></li>
+  <li><font face="Arial">Eisenhower, Dwight D.</font></li>
+  <li><font face="Arial">Davis, Jr., Sammy</font></li>
+</ol>
+<p>You need to use the last form for names that include a suffix like &quot;Jr.&quot; but 
+otherwise, I prefer the first. Initials should be followed by a period 
+and a space, i.e. write &quot;<font face="Arial">J. B. Priestly</font>&quot; rather than &quot;<font face="Arial">JB 
+Priestly</font>&quot; or &quot;<font face="Arial">J.B.Priestly</font>&quot;. Aristocratic names 
+should be written &quot;<font face="Arial">Ludwig van Beethoven</font>&quot; or &quot;<font face="Arial">van 
+Beethoven, Jr., Ludwig</font>&quot; if they also have a &quot;<font face="Arial">Jr.</font>&quot; 
+suffix.</p>
+<p>BibTeX does not deal properly with names in which the family name comes 
+first. These should be surrounded with braces as in&nbsp; &quot;{Mao Zedong}&quot; in 
+order to ensure that their order is not reversed and that the family name is 
+used when sorting the list of authors.</p>
+<h2><a name="Strings"></a>Strings</h2>
+<p>Jabref allows you to define <i>strings</i> that can abbreviate commonly used 
+journal names. Click BibTeX&gt;&gt;Edit Strings&gt;&gt;+ to enter a new abbreviation e.g. &quot;<font face="Arial">IJFC</font>&quot; 
+for the &quot;<font face="Arial">Proc. International Juggling Federation 
+Convention</font>&quot;. Once defined, you can enter <font face="Arial">#IJFC#</font> 
+instead of the full name which is quicker and saves spelling errors.</p>
+<h2><a name="Special"></a>Special Characters</h2>
+<p>Bibtex4Word can generate non-standard characters in several different ways. 
+Most of these are illustrated in the document &quot;<font face="Arial">SpecialCharacters.doc</font>&quot; 
+that is included in the Bibtex4Word distribution.</p>
+<ol>
+  <li>The easiest way is to save your BibTeX file using
+  <a href="http://en.wikipedia.org/wiki/UTF-8">UTF-8</a> encoding (this can be 
+  set in the Jabref preferences dialog) and specify the <font face="Arial">p</font> 
+  style flag so that Bibtex4Word reads it correctly.</li>
+  <li>Non-standard characters that are available in your locale's
+  <a href="http://en.wikipedia.org/wiki/Code_page">ANSI code page</a> will be reproduced correctly 
+  if the <font face="Arial">p</font> style flag is omitted or if
+  <font face="Arial">0p</font> is specified. These can be entered from your keyboard by typing
+  <font face="Arial">ALT+0xxx</font> where <font face="Arial">xxx</font> is the 
+  decimal character code that you want in the range 129 to 255. Code page 1252 
+  is the Western European standard and is illustrated in the examples in &quot;<font face="Arial">SpecialCharacters.doc</font>&quot;.</li>
+  <li>Many characters have special &quot;escape sequences&quot; defined in LaTeX. Thus, &quot;<font face="Arial">\infty</font>&quot; 
+  will create an infinity symbol. Bibtex4Word will correctly interpret most but 
+  not all of the sequences shown
+  <a href="http://www.eng.cam.ac.uk/help/tpl/textprocessing/latex_advanced/node14.html">
+  here</a>.</li>
+  <li>Accents on letters also have special &quot;escape sequences&quot; which are listed
+  <a href="http://www-h.eng.cam.ac.uk/help/tpl/textprocessing/teTeX/latex/latex2e-html/ltx-401.html">
+  here</a>. For reasons that are explained
+  <a href="ftp://ftp.tex.ac.uk/tex-archive/info/bibtex/tamethebeast/ttb_en.pdf">
+  here</a>, you need to enclose accented characters in names and titles within 
+  braces e.g. &quot;<font face="Arial">{\&quot;a}</font>&quot; for an a with an umlaut or 
+  within double braces to protect them from case changes in titles e.g. &quot;<font face="Arial">{{\&quot;A}}</font>&quot;. 
+  </li>
+  <li>Mathematical formulae are enclosed in braces and $ signs and use _ and ^ 
+  for subscript and superscript respectively: &quot;<font face="Arial">{$a^2+b^2=c^2$}</font>&quot;. 
+  </li>
+  <li>Unicode characters can be entered 
+  with the escape sequence &quot;<font face="Arial">\unichar{xxx}</font>&quot; where
+  <font face="Arial">xxx</font> is the decimal code for a character.</li>
+</ol>
+<hr>
+<address>This page is part of the <a href="b4w_intro.html">Bibtex4Word</a> 
+  				documentation. Copyright &copy; 2006-2013 <a href=
+"http://www.ee.ic.ac.uk/hp/staff/dmb/dmb.html">Mike Brookes</a>, Imperial
+College, London, UK. See the file <a href="gfl.html">gfl.html</a> for copying
+instructions. Please send any comments or suggestions to "mike.brookes" at
+"imperial.ac.uk".<br>
+Updated: $Id: b4w_bibtex.html 2836 2013-03-23 09:53:32Z dmb $</address>
+<hr>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6956824-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+</body>
+</html>

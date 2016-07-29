@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<title>Bibtex4Word - Revision History</title>
+<meta name="Template" content=
+"E:\Program Files\Microsoft Office\Office\html.dot">
+<link rel="stylesheet" type="text/css" href="B4w_style.css" />
+</head>
+<body link="#0000FF" vlink="#800080">
+<h1 align="left">Bibtex4Word - Revision History</h1>
+<hr>
+<h3>V2835 2013/03/23</h3>
+<ul>
+  <li>Changed search character from : to @ to avoid conflicts with BibTeX key 
+	names</li>
+</ul>
+<h3>V1408 2012/02/10</h3>
+<ul>
+  <li>Fixed bug in \pm code and changed to SVN (hence the large version number)</li>
+</ul>
+<h3>V1.92 2011/07/21</h3>
+<ul>
+  <li>Fixed compile error under 64-bit Office version</li>
+</ul>
+<h3>V1.90 2011/07/09</h3>
+<ul>
+  <li>Added BIBTEMP environment variable</li>
+</ul>
+<h3>V1.89 2011/07/09</h3>
+<ul>
+  <li>Added BIBEXE environment variable and improved error diagnostics</li>
+</ul>
+<h3>V1.87 2011/07/07</h3>
+<ul>
+  <li>Fixed error in the reported number of citations in the log file</li>
+</ul>
+<h3>V1.86 2011/07/0710</h3>
+<ul>
+  <li>Fixed error to make the /b style option work with .docx files.</li>
+</ul>
+<h3>V1.85 2011/07/03</h3>
+<ul>
+  <li>Modified the code to work on 64-bit systems</li>
+</ul>
+<h3>V1.84 2010/06/05</h3>
+<ul>
+  <li>Added the /m style flag to control the number of cross references needed 
+	to trigger inclusion of the parent entry</li>
+</ul>
+<h3>V1.83 2009/08/10</h3>
+<ul>
+  <li>Fixed punctuation bug for styles that use the
+  <font face="Arial">mciteplus</font> package.</li>
+</ul>
+<h3>V1.82 2009/08/09</h3>
+<ul>
+  <li>Added the # style flag and partial support for styles that use the
+  <font face="Arial">mciteplus</font> package.</li>
+</ul>
+<h3>V1.81 2009/08/06</h3>
+<ul>
+  <li>Fixed bug that prevented subscript mode from being reset when exiting math 
+  mode.</li>
+</ul>
+<h3>V1.80 2009/07/19</h3>
+<ul>
+  <li>Added interpreter for &quot;bibAnnoteFile&quot; command used in &quot;plos&quot; style..</li>
+</ul>
+<h3>V1.79 2009/07/17</h3>
+<ul>
+  <li>Fixed bug (for the second time) which meant that the font colour in a 
+  citation was not preserved when updating.</li>
+</ul>
+<h3>V1.78 2009/07/17</h3>
+<ul>
+  <li>Added &amp; style flag to select the form of &quot;and&quot; in the author list for 
+  harvard styles like agsm. </li>
+  <li>Fixed bug which meant that the font colour in a citation was not preserved 
+  when updating.</li>
+</ul>
+<h3>V1.77 2009/07/12</h3>
+<ul>
+  <li>Added support for elsarticle-harv style.</li>
+</ul>
+<h3>V1.76 2009/04/24</h3>
+<ul>
+  <li>Added support for \textsc latex command.</li>
+</ul>
+<h3>V1.75 2009/04/20</h3>
+<ul>
+  <li>Added the <font face="Arial">p</font> option to define the code page of the BibTeX database 
+  file. Using the <font face="Arial">p</font> option alone (without giveing a 
+  code page) will use UTF8 encoding and allow the complete range of unicode 
+  characters.</li>
+  <li>Now correctly decodes UNIX and Mac line ending formats in the BBL file.</li>
+</ul>
+<h3>V1.74 2009/04/14</h3>
+<ul>
+  <li>Added the 2z option to control whether the name of the BibTeX database 
+  file is stored as a relative path with respect to the document.</li>
+</ul>
+<h3>V1.73 2009/04/13</h3>
+<ul>
+  <li>Fixed some errors in the handling of accents.</li>
+</ul>
+<h3>V1.72 2009/04/12</h3>
+<ul>
+  <li>Made the display of citations neater when they are originally entered into 
+  the text.</li>
+</ul>
+<h3>V1.71 2009/04/12</h3>
+<ul>
+  <li>Added option to replace URLs with &lt;url&gt; but still have them as hyperlinks.</li>
+</ul>
+<h3>V1.70 2009/04/11</h3>
+<ul>
+  <li>Insert discretionary hyphens after each &quot;/&quot; in a URL to allow them to 
+  break across lines. Style flag <font face="Arial">3y</font> will suppress this.</li>
+</ul>
+<h3>V1.68 2009/04/10</h3>
+<ul>
+  <li>Removed all non-ascii characters from the file so that the macro should 
+  now work correctly for non-Western locales.</li>
+  <li>Fixed Latex mapping of single quotes.</li>
+</ul>
+<h3>V1.67 2009/04/10</h3>
+<ul>
+  <li>Fixed error that prevented one bibliography entry from citing another (as 
+  happens when the <font face="Arial">crossref</font> field is used).</li>
+</ul>
+<h3>V1.66 2009/04/01</h3>
+<ul>
+  <li>Supported \relax command</li>
+  <li>Changed style commands to //t and //b to avoid ambiguity.</li>
+  <li>Improved the behaviour of the /t style table option.</li>
+</ul>
+<h3>V1.65 2009/03/29</h3>
+<ul>
+  <li>Added support for Unicode characters using the \unichar{...} sequence.</li>
+</ul>
+<h3>V1.64 2009/03/29</h3>
+<ul>
+  <li>Fixed bug when a special character ( like _ ) is used as a delimiter for 
+  \verb</li>
+  <li>Fixed bug when a special character is used in a label</li>
+  <li>Fixed bug preventing the old bibliography from being deleted when it is 
+  updated if the labels are hidden using the l flag.</li>
+</ul>
+<h3>V1.63 2009/03/28</h3>
+<ul>
+  <li>Added support for mathematical expressions and Greek letters</li>
+</ul>
+<h3>V1.62 2009/03/28</h3>
+<ul>
+  <li>Turned off screen updating while bibliography is rewritten to speed things 
+  up.</li>
+  <li>Cleared the Undo list when updating the bibliography in order to prevent a 
+  warning message from Word about having insufficient memory.</li>
+</ul>
+<h3>V1.61 2009/03/28</h3>
+<ul>
+  <li>Added support for \verb (verbatim mode). This gives the only real way of 
+  entering a ~ character.</li>
+</ul>
+<h3>V1.60 2009/03/27</h3>
+<ul>
+  <li>Added mathematical symbols and extended the range of accents</li>
+</ul>
+<h3>V1.59 2009/03/25</h3>
+<ul>
+  <li>Fixed the Visual Basic code for handling accents so that it does not 
+  include characters with ASCII codes &gt;127 which causes havoc with chinese 
+  installations. I hope this is now fixed but cannot easily tell.</li>
+</ul>
+<h3>V1.58 2009/03/25</h3>
+<ul>
+  <li>Prevented ~ from being converted to a non-breaking space in URL and DOI 
+  fields.</li>
+</ul>
+<h3>V1.57 2009/03/16</h3>
+<ul>
+  <li>Fixed error in agsm style when label contains \em (emphasised text)</li>
+  <li>Moved \harvardand interpretation to a more rational place in the code</li>
+</ul>
+<h3>V1.56 2009/03/14</h3>
+<ul>
+  <li>Added support for Harvard styles like agsm</li>
+  <li>Improved stability of the formatting of citations when updating the 
+  bibliography</li>
+  <li>Fixed a bug that meant the Latex commands were case sensitive</li>
+  <li>Added support for various year formatting styles </li>
+</ul>
+<h3>V1.55 2008/04/21</h3>
+<ul>
+  <li>Added the + flag to allow the use of bibtex8</li>
+  <li>Added the /t flag to generate a style table</li>
+</ul>
+<h3>V1.54 2007/09/08</h3>
+<ul>
+  <li>Hide the command prompt window when calling Bibtex</li>
+</ul>
+<h3>V1.53 2007/09/08</h3>
+<ul>
+  <li>Improved the blocking call to Bibtex to prevent it hanging on some systems</li>
+</ul>
+<h3>V1.52 2007/09/08</h3>
+<ul>
+  <li>Fixed the fix of V1.51</li>
+</ul>
+<h3>V1.51 2007/09/08</h3>
+<ul>
+  <li>Fixed bug causing errors in continuation lines within a long URL</li>
+</ul>
+<h3>V1.50 2007/09/08</h3>
+<ul>
+  <li>Added h flag for clickable hyperlinks</li>
+</ul>
+<h3>V1.40 2007/07/14</h3>
+<h3>V1.30 2007/06/30</h3>
+<ul>
+  <li>Added support for natbib styles including URL and DOI hyperlinks</li>
+</ul>
+<h3>V1.20 2007/06/24</h3>
+<ul>
+  <li>Fixed bug relating to spaces in bibtex file</li>
+</ul>
+<h3>V1.12 2006/03/09</h3>
+<ul>
+  <li>Fixed errors in Add function</li>
+</ul>
+<h3>V1.10 2006/03/03</h3>
+<ul>
+  <li>Implemented \quotation environment (for annotation style)</li>
+  <li>Implemented \penalty command (for is-plain style)</li>
+</ul>
+<h3><a name="cholesky">V1.1</a> 2006/02/12</h3>
+<hr>
+<address>This page is part of the <a href="b4w_intro.html">Bibtex4Word</a> 
+  				documentation. Copyright &copy; 2006-2013 <a href=
+"http://www.ee.ic.ac.uk/hp/staff/dmb/dmb.html">Mike Brookes</a>, Imperial
+College, London, UK. See the file <a href="gfl.html">gfl.html</a> for copying
+instructions. Please send any comments or suggestions to "mike.brookes" at
+"imperial.ac.uk".<br>
+Updated: $Id: b4w_history.html 2836 2013-03-23 09:53:32Z dmb $</address>
+<hr>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6956824-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+</body>
+</html>

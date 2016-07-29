@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<title>Bibtex4Word - FAQ</title>
+<meta name="Template" content=
+"E:\Program Files\Microsoft Office\Office\html.dot">
+<link rel="stylesheet" type="text/css" href="B4w_style.css" />
+<style type="text/css">
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+}
+.style2 {
+	font-family: Arial;
+}
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+<h1 align="left">Bibtex4Word - FAQ</h1>
+<hr>
+<p align="left"><b>Contents:</b> <a href="#problems">Freq&nbsp;Asked&nbsp;Questions</a> -
+<a href="#messages">Error&nbsp;Messages</a> - <a href="#bugs">Known&nbsp;Bugs</a> -
+<a href="#wishlist">Feature&nbsp;Wishlist</a></p>
+<p align="left">If your question is not answered here, you may find it helpful 
+to visit the wiki generously established by James at
+<a href="http://www.medicalnerds.com/how-to-use-jabrefbibtex-with-microsoft-word-2003/">
+http://www.medicalnerds.com/how-to-use-jabrefbibtex-with-microsoft-word-2003/</a>.</p>
+<hr>
+<h2><a name="problems"></a>Frequently Asked Questions</font></h2>
+<h3>Installation</font></h3>
+<dl>
+  <dt><b>I cannot see the Bibtex toolbar</b></font></dt>
+  <dd>(a) You must restart Word if it was already running when you installed the 
+    bibtex.dot template<br>
+  (b) Check that the template was copied into the correct startup folder: 
+    within Microsoft Word click <font face="Arial">Tools&gt;&gt;Options&gt;&gt;File 
+    Locations&gt;&gt;Startup&gt;&gt;Modify</font> in order to discover where the Word 
+    Startup folder is. Then click &quot;Cancel&quot; to avoid changing it to something 
+    else.<br>
+  (c) When downloading the template, Internet Explorer sometimes changes it 
+    from a template file to a document file. From within Word, open the file and 
+    then select &quot;<font face="Arial">Save As</font>&quot; and save it in the Word Startup folder as a file type 
+    &quot;<font face="Arial">Document Template (*.dot)</font>&quot;.<br>
+  (d) Check that the add-in is enabled. In <b>Word 2002/3</b>, click &quot;<font face="Arial">Tools-&gt;Templates</font>&quot; 
+  and &quot;<font face="Arial">Add-ins</font>&quot; and ensure that <font face="Arial">
+  bibtex4word.dot</font> is listed with a check mark. In <b>Word 2007</b>, click 
+  the Microsoft Office Button (at top left), then &quot;<font face="Arial">Word 
+  Options</font>&quot; and &quot;<font face="Arial">Add-Ins</font>&quot;; in the Manage box at 
+  the bottom, select &quot;<font face="Arial">Templates</font>&quot; and click &quot;<font face="Arial">Go</font>&quot;; 
+  ensure that <font face="Arial">bibtex4word.dot</font> is listed with a check 
+  mark.</dd>
+</dl>
+<h3>Bad Behaviour</h3>
+<dl>
+	<dt>Bibliography disappears when it is <b>updated</b></dt>
+	<dd>If you install the <a href="http://www.cygwin.com/">cygwin</a> package 
+	after installing MikTex, Bibtex4Word will use the wrong version of 
+	bibtex.exe. Possible fixes are:<br>
+	(a) use the &quot;+&quot; style flag<br>
+	(b) alter the PATH environment variable so that MikTex precedes cygwin<br>
+	(c) delete or rename the cygwin bibtex.exe file<br>
+	(d) Specify the correct bibtex file as the <span class="style1">BIBEXE</span> 
+	environment variable<br>
+&nbsp;&nbsp;&nbsp;&nbsp; e.g. <span class="style1">BIBEXE=C:\Program Files\MiKTeX 
+	2.8\miktex\bin\bibtex.exe</span></dd>
+</dl>
+<h3>Selection of Styles</h3>
+<dl>
+  <dt><b>I created a new style but BibTeX cannot find it</b></dt>
+  <dd>If you create a new style, you need to run texhash from a command window 
+  in order to update BibTeX's list of files. You can ulso update it by 
+	following: Programs-&gt; MikTex 2.x-&gt; Maintenance(Admin)-&gt; Settings(Admin) and 
+	then clicking on &quot;Refresh FNDB&quot;.<br>
+	You can verify that style xxx is visible to MikTex by typing &quot;kpsewhich 
+	xxx.bst&quot; from a command window.</dd>
+</dl>
+<h3>Formatting of Citations</h3>
+<dl>
+  <dt><b>I want the citations to have parentheses instead of brackets, be 
+  superscripts, etc</b></dt>
+  <dd>The detailed formatting of the citations is controlled by the style flags 
+  whose use is described in the <a href="b4w_using.html#Flags">user guide</a>. 
+  Thus a style <font face="Arial">plain</font> will use square brackets whereas
+  <font face="Arial">plain/(</font> will use round parentheses and
+  <font face="Arial">plain/(^</font> will use round parentheses and 
+  superscripts.</dd>
+  <dt><b>Parentheses adjacent to a citation disappear when I refresh the 
+	bibliography</b></dt>
+  <dd>To avoid leaving unwanted parentheses in the document under some 
+	circumstances, Bibtex4Word deliberately gobbles up any parentheses that are 
+	immediately adjacent to a citation. To avoid this, insert a zero-width space 
+	between the citation and the parenthesis that you wish to preserve. How to 
+	enter a zero-width space sadly depends on the version of Word you are using 
+	as well as the font and language settings, the easiest way in 
+	Word2002+ is to type 200B in the document and then hold down Alt and type X.&nbsp; If you 
+	have enabled the display of non-printing characters, the zero-width space is 
+	displayed on the screen as a square within a square but it will not appear 
+	when printed.</dd>
+</dl>
+
+<h3><a name="Formatting_of_Bibliography">Formatting of Bibliography</a></h3>
+<dl>
+  <dt><b>The author names appear twice in my bibliography entries</b></dt>
+  <dd>This happens if you are using a Harvard style and either (a) omitted to 
+  include the &quot;<font face="Arial">l</font>&quot; style flag which suppresses the label or else (b) have 
+  &quot;hidden text&quot; visible. To turn off hidden text select Tools&gt;&gt;Options&gt;&gt;View 
+	(Word 2003) or Office-Button&gt;&gt;Word-Options&gt;&gt;Display (Word 2007) and 
+  make sure that both &quot;<font face="Arial">Hidden Text</font>&quot; and &quot;<font face="Arial">All</font>&quot; are unchecked.</dd>
+  <dt><b>The /l option does not hide the labels</b></dt>
+	<dd>The most common reason for the /l option apparently failing to work is 
+	that &quot;hidden text&quot; has been made visible.&nbsp; To turn off hidden text 
+	select Tools&gt;&gt;Options&gt;&gt;View (Word 2003) or 
+	Office-Button&gt;&gt;Word-Options&gt;&gt;Display (Word 2007) and 
+  make sure that both &quot;<font face="Arial">Hidden Text</font>&quot; and &quot;<font face="Arial">All</font>&quot; are unchecked.</dd>
+	<dt><b>The bibliography entries are in the wrong order</b></dt>
+  <dd>The order in which the bibliography is sorted is determined by the Bibtex 
+  style that you have chosen to use. The majority of styles arrange the 
+  bibliography alphabetically by author, but others sort by year of publication 
+  or else list references in the order in which they are cited in your document. 
+  A more detailed discussion is given in the <a href="b4w_using.html#Sort">user 
+  guide</a>.</dd>
+  <dt>The bibliography appears at the wrong place in my document</dt>
+  <dd>The position of the bibliography within your document is determined by the 
+  current cursor position when&nbsp; you click
+  <img border="0" src="B4w_make.png" width="20" height="20">&nbsp;for the first time.
+  If it is in the wrong place, select it all and delete it. Now place the cursor 
+	where you want the bibliography to be and click
+  <img border="0" src="B4w_make.png" width="20" height="20">&nbsp;again.</dd>
+  <dt>Upper case letters are converted to lower case in the title.</dt>
+  <dd>It is a quirk of BibTex that the case of letters in the title field is 
+  ignored and the selected BibTex style applies its own capitalization scheme. 
+  If you surround text by braces, then its case will be preserved, e.g. &quot;<font face="Arial">{UNESCO}</font>&quot;, 
+  &quot;<font face="Arial">{\Delta}</font>&quot;.</dd>
+</dl>
+<h2><a name="messages"></a>Error Messages</h2>
+<dl>
+  <dt><b>Bibtex was unable to find style: xxx</b></dt>
+  <dd>The style &quot;xxx&quot; was not available. This means that the style is either 
+  (a) spelled incorrectly or else (b) that has not been installed in Miktex. To solve 
+  the latter cause, open the MiKTeX package manager (<font face="Arial">Programs-&gt;MiKTeX v.v-&gt;Browse 
+  Packages</font>), type &quot;<font face="Arial">xxx.bst</font>&quot; in the &quot;Filename:&quot; box and click &quot;Filter&quot;. If the 
+  package has not yet been installed, the column headed &quot;Installed on&quot; will be 
+  blank; right click the package and select &quot;Install&quot;. You may need to select 
+  the server to download from by selecting Repository-&gt;Change Repository: select 
+  &quot;Packages shall be installed from the Internet&quot;, click &quot;next&quot; and then select 
+  a nearby server. It is possible to set an option so that MiKTeX downloads any 
+  missing packages automatically, but I do not recommend this because it will 
+  get stuck for ever if the server is not working.<br>
+	If you create a new style, you need to run texhash from a command window 
+  in order to update BibTeX's list of files. You can ulso update it by 
+	following: <span class="style2">Programs-&gt; MikTex 2.x-&gt; Maintenance(Admin)-&gt; Settings(Admin)</span> and 
+	then clicking on &quot;<span class="style2">Refresh FNDB</span>&quot;.<br>
+	You can verify that style <span class="style2">xxx</span> is visible to
+	<span class="style2">MikTex</span> by typing &quot;<span class="style2">kpsewhich 
+	xxx.bst</span>&quot; from a command window.</dd>
+  <dt><b>Compile error in hidden module: Bibtex4word</b></dt>
+  <dd>(1) This error will appear if your version of Word is too old. Bibtex4Word 
+  requires Word 2002 or later.<br>
+  (2) This error used to happen because the macro included some non-ASCII 
+  characters which would not work if the locale was set to other than West 
+  European Latin. It was, I hope, fixed in V1.68.</dd>
+  <dt><b>Missing Bibtex log file: ...</b></dt>
+  <dd>This error means that the BibTeX program could not be found. Run bibtex 
+  from a command window and check that you receive a message saying
+  <font face="Arial">Need exactly one file argument</font>. If not, try 
+  re-installing MikTeX. If you do get the correct response, try the solutions 
+	suggested in &quot;Bad behaviour: Bibliography disappears when it is updated &quot; 
+	above.</dd>
+  <dt><b>Empty BBL file: ...</b></dt>
+  <dd>This error may mean that the requested BibTeX style is not installed in 
+	MikTex. To install it, see &quot;Error Messages: Bibtex was unable to find style: 
+	xxx &quot; above.</dd>
+  <dt><b>Run-time error '75': Path/file access error</b></dt>
+  <dd>This error occurs if Bibtex4Word tries to use a read-only folder for its 
+	temporary files. Set the environment variable BIBTEMP to a valid writable 
+	folder.</dd>
+  <dt><b>Run-time error '76': Path not found</b></dt>
+  <dd>This error occurs if Bibtex4Word tries to use a non-existent folder for 
+	its temporary files. Set the environment variable BIBTEMP to a valid 
+	writable folder.</dd>
+  <dt><b>The macro cannot be found or has been disabled because of your Macro 
+	security settings</b></dt>
+  <dd>Some users have reported this error message in Word 2010. Changing the 
+	Macro security settings has no effect.Unfortunately I do not use Word 2010 
+	and I have no idea what causes this message.</dd>
+  <dt><b>Word has insufficient memory. You will not be able to undo this action 
+  once it is completed. Do you want to continue?</b></dt>
+  <dd>If you update a large bibliography, Word will issue this message to warn 
+  you that it is such a large change to your document that it will not be 
+  possible to undo it. You probably do not care about this, so just say &quot;Yes&quot;. 
+  This problem was fixed in V1.62 by clearing the &quot;undo buffer&quot; provided that 
+  style flag <font face="Arial">1z</font> is not specified.</dd>
+</dl>
+<h2><a name="bugs"></a>Known Bugs</h2>
+<h3>BibTeX database</h3>
+<dl>
+  <dt><b>Search function does not work for BibTeX files with UNIX-style line 
+  endings</b></dt>
+</dl>
+<h3>Citation Formatting</h3>
+<dl>
+  <dt><b>If the style flag <font face="Arial">^</font> is deleted from the format, 
+  the brackets or parentheses surrounding citations incorrectly retain 
+  superscript formatting.</b></dt>
+  <dt><b>Citations that are in a table sometimes move to an adjacent cell</b></dt>
+</dl>
+<h3>Visual Basic Problems</h3>
+<dl>
+  <dt>A file created in Word2003 can sometimes result in a Visual Basic runtime 
+  error 5 when updating the bibliography in Word2007 or later.</dt>
+  <dt>Updating the bibliography when Word in is &quot;reviewing mode&quot; can 
+	also result in 
+  Visual Basic runtime error 5</dt>
+</dl>
+<h2>Bugs that are now fixed</h2>
+<h3>Citation Formatting</h3>
+<dl>
+  <dt><b>V1.57: Style <font face="Arial">agsm</font> does not decode the label 
+  correctly when the same author has written multiple papers in a single year.</b></dt>
+</dl>
+<h2><a name="wishlist"></a>Feature Wishlist</h2>
+<h3>User Interface</h3>
+<dl>
+  <dt><b>Have a more user-friendly search interface (e.g. like Lyx)</b></dt>
+  <dt><b>Eliminate the restriction that bibtex keys cannot include the magic 
+  characters</b></dt>
+  <dt><b>Ability to insert citations directly from Jabref</b></dt>
+  <dt><b>Fix the save dialog box to show the correct file extension</b></dt>
+  <dt>Allow citations to be entered in plain text using a suitable escape 
+  sequence (e.g. &quot;[[Einstein1905]]&quot;) and then converted to citations later.</dt>
+	<dt>Support \href{url}{label} for more flexible hyperlinks</dt>
+</dl>
+<h3>BibTeX database</h3>
+<dl>
+  <dt><b>Allow the use of more than one database file </b></dt>
+</dl>
+<h3>Formatting</h3>
+<dl>
+  <dt><b>Allow different types of </b>citation formatting within a single 
+  document (e.g. \citet, \citep, \citet*) </dt>
+</dl>
+<h3>Latex Interpretation</h3>
+<dl>
+  <dt>Full support for styles using the <font face="Arial">mcite/mciteplus</font> 
+  (multiple citations) package (e.g. <font face="Arial">achemso</font>) </dt>
+	<dt>Support for biblatex</dt>
+</dl>
+<hr>
+<address>This page is part of the <a href="b4w_intro.html">Bibtex4Word</a> 
+  				documentation. Copyright &copy; 2006-2013 <a href=
+"http://www.ee.ic.ac.uk/hp/staff/dmb/dmb.html">Mike Brookes</a>, Imperial
+College, London, UK. See the file <a href="gfl.html">gfl.html</a> for copying
+instructions. Please send any comments or suggestions to "mike.brookes" at
+"imperial.ac.uk".<br>
+Updated: $Id: b4w_trouble.html 3238 2013-07-10 07:43:01Z dmb $</address>
+<hr>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6956824-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+</body>
+</html>

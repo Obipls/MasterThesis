@@ -1,0 +1,19 @@
+@ARTICLE{stamatatos:2016,
+
+        AUTHOR             = {Efstathios Stamatatos and Michael Tschuggnall and Ben Verhoeven and Walter Daelemans and G{\"u}nther Specht and Benno Stein and Martin Potthast},
+
+        BOOKTITLE          = {Working Notes Papers of the CLEF 2016 Evaluation Labs},
+
+        ISSN               = {1613-0073},
+
+        MONTH              = sep,
+
+        PUBLISHER          = {CLEF and CEUR-WS.org},
+
+        SERIES             = {CEUR Workshop Proceedings},
+
+        TITLE              = {Clustering by Authorship Within and Across Documents},
+
+        YEAR               = {2016}
+
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<title>Bibtex4Word - Reference Information</title>
+<meta name="Template" content=
+"E:\Program Files\Microsoft Office\Office\html.dot">
+<link rel="stylesheet" type="text/css" href="B4w_style.css" />
+<style type="text/css">
+.style2 {
+				font-family: Arial, Helvetica, sans-serif;
+}
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+<h1 align="left">Bibtex4Word - Reference Information</h1>
+<hr>
+<p align="left"><b>Contents:</b> <a href="#magic">Magic&nbsp;Characters</a> -
+<a href="#bookmarks">Bookmarks</a> - <a href="#encode">Encoding&nbsp;BibTeX&nbsp;Keys</a> 
+- <a href="#citelists">Citation&nbsp;Entries</a> - <a href="#environment">
+Environment&nbsp;Variables</a> - <a href="#properties">Document&nbsp;Properties</a> -
+<a href="#toolbar">Toolbar</a> - <a href="#debug">Debugging</a></p>
+<hr>
+<h2><a name="magic"></a>Magic Characters</h2>
+<p>Bibtex4Word uses two magic characters: &quot;@&quot; for searching and &quot;/&quot; to indicate 
+style flags. You can change these to any two non-alphanumeric characters by 
+listing them after the default style in the BIBSTYLE environment variable, e.g. 
+BIBSTYLE=alpha$n :$. Note that, as in this example, changing the &quot;/&quot; character 
+has an immediate effect and you must use the new character if you specify any 
+default flags in BIBSTYLE. If you change the characters you should avoid 
+characters that appear within BibTeX style names or BibTeX keys in your 
+database.</p>
+<h2><a name="bookmarks"></a>Bookmarks</h2>
+<p>For each entry in the bibliography, two bookmarks are created: BIB_xxxx and 
+B4B_xxxx where xxxx is the bibtex key name (encoded as described below). The 
+first of these bookmarks refers to the label of the bibliography entry excluding 
+any enclosing brackets; the second bookmark just refers to the start of the 
+label without including its text. </p>
+<h2><a name="encode"></a>Bibtex Key Encoding</h2>
+<p>The bookmarks corresponding to a particular publication are of the form 
+BIB_xxxx and B4B_xxxx where xxxx is normally the bibtex key name. However, if 
+the bibtex key contains any non-alphanumeric characters, these are encoded as _hh 
+where hh is the corresponding hexadecimal character code. This ensures that the 
+bookmark names contain only legal characters.</p>
+<h2><a name="citelists"></a>Citation Entries</h2>
+<p>A normal citation entry consists of a sequence of bookmark references of the 
+form BIB_xxxx separated by commas and enclosed in square brackets. Non-citing 
+references are always at the start of the list and use the alternate bookmarks 
+B4B_xxxx which do not include the label text and are therefore invisible. If the 
+&quot;compress&quot; style flag, , is selected, the intermediate values in a compressed 
+sequence also use this alternate form.</p>
+<h2><a name="environment"></a>Environment Variables</h2>
+<p>You can define the default behaviour of Bibtex4Word by specifying some or all 
+of the following environment variables. To do so, use Start&gt;&gt;Settings&gt;&gt;Control 
+Panel&gt;&gt; System&gt;&gt;Advanced&gt;&gt;Enviromental Variables&gt;&gt;User Variables&gt;&gt;New. </p>
+<dl>
+				<dt class="style2">BIBFILE</dt>
+				<dd>
+				Defines the default bibtex database (e.g. <span class="style2">BIBFILE=C:\data\file.bib</span>)
+				</dd>
+				<dt class="style2">BIBSTYLE</dt>
+				<dd>Defines the default bibtex style, style flags and magic characters 
+(e.g. <span class="style2">BIBSTYLE=plainnat/ndu :$</span>). The magic characters should normally be left at 
+their default values (<span class="style2">:/</span>) and only need be changed if you use these characters 
+in your bibtex keys.</dd>
+				<dt class="style2">BIBEXE</dt>
+				<dd>Defines the bibtex executable program (e.g. 
+				<span class="style2">BIBEXE=C:\Program Files\MiKTeX 2.8\miktex\bin\bibtex.exe</span>). This 
+				overrides the &quot;+&quot; style flag.</dd>
+				<dt class="style2">BIBTEMP</dt>
+				<dd>Defines the folder that Bibtex4Word will use for temporary 
+				file (e.g. 
+				<span class="style2">BIBTEMP=C:\xxx\dirname</span>). It is not 
+				normally necessary to set this explicitly.</dd>
+</dl>
+<h2><a name="properties"></a>Document Properties</h2>
+<p>Document-specific information is stored within the word document as custom 
+properties and can be seen by selecting File&gt;&gt;Properties&gt;&gt; Custom. </p>
+<p><span class="style2">BIBFILE</span> Defines the bibtex database (e.g. 
+<span class="style2">BIBFILE=C:\data\file.bib</span>) <span class="style2">BIBSTYLE</span> 
+Defines the default bibtex style and style flags (e.g. <span class="style2">BIBSTYLE=plainnat/ndu</span>). 
+The magic characters are computer-specific and are never stored in the Word 
+document. <span class="style2">BIBDISP</span> Has the value ref or key according to the display mode 
+selected by the button. </p>
+<h2><a name="toolbar"></a>Toolbar </h2>
+<table border="1" cellspacing="1" width="100%" id="AutoNumber1">
+  <tr>
+    <td width="7%" align="center">
+    <img border="0" src="B4w_add.png" width="20" height="20"></td>
+    <td width="93%">Insert one or more comma-separated citations. Search the 
+    database using keywords.</td>
+  </tr>
+  <tr>
+    <td width="7%" align="center">
+    <img border="0" src="B4w_make.png" width="20" height="20"></td>
+    <td width="93%">&nbsp;The first time you press this, a bibliography is 
+    inserted at the cursor position. Subsequently, pressing this button will 
+    update the bibliography regardless of where the cursor is.</td>
+  </tr>
+  <tr>
+    <td width="7%" align="center">
+    <img border="0" src="B4w_eye.png" width="20" height="20"></td>
+    <td width="93%">Toggles the display of citations within the text between 
+    their labels (e.g. [1], [2] etc) and their BibTex keys. When the file is 
+    printed (or whenever fields are updated) then the entries will revert to 
+    their labels.</td>
+  </tr>
+  <tr>
+    <td width="7%" align="center">
+    <img border="0" src="B4w_format.png" width="20" height="20"></td>
+    <td width="93%">Allows you to select the bibtex style in the form 
+    style/flags that should be used to generate the bibliography. The style name 
+    is not case sensitive.<p><b>Special style entries:<br>
+    </b>//b - opens the bibtex database<br>
+    //t - opens the four temporary files that Bibtex4Word uses to store 
+      intermediate data. This can be useful for figuring out why things are not 
+      working as expected.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="7%" align="center">
+    <img border="0" src="B4w_dbase.png" width="20" height="20"></td>
+    <td width="93%">Allows you to select the BibTex database that should be 
+    searched for references. At present you are not allowed to use multiple 
+    databases.</td>
+  </tr>
+  <tr>
+    <td width="7%" align="center">
+    <img border="0" src="B4w_save.png" width="20" height="20"></td>
+    <td width="93%">Creates a new BibTex database file containing only the 
+    entries that are cited in the current document.</td>
+  </tr>
+</table>
+<h2>&nbsp;<a name="debug"></a>Debugging</h2>
+<p>Although installing Bibtex4word.dot into the STARTUP folder (step 5 of the 
+installation procedure above) is 
+convenient, it makes the code invisible and impossible to debug. If you want 
+access to the code, you need instead to install into your templates folder and 
+using it as a template for a new document. You can find or change this folder 
+by starting Word and selecting: [Word 2003]:Tools&gt;Options&gt;File Locations 
+or [Word 2007]:Office Button&gt;Word Options&gt;Advanced&gt;File Locations (at bottom of 
+page).</p>
+<p>BibTex4Word 
+creates four temporary files in the folder defined by the TEMP environment 
+variable (typically F:\Documents and Settings\*\Local Settings\Temp). If 
+Bibtex4Word does not function as you expect, inspecting these files is the 
+best way to find out why. The easiest way to view the files is to enter the 
+special style &#8220;/t&#8221; which will open the four files using notepad. The 
+files have the following fixed names and will be overwritten each time the 
+bibliography is updated:</p>
+<dl>
+  <dt><font face="Arial">bibtex4word.log</font></dt>
+  <dd>This file is created by Bibtex4Word and gives information about the 
+  actions it has taken.</dd>
+  <dt><font face="Arial">bibtex4word.aux</font></dt>
+  <dd>This file is created by Bibtex4Word when you press
+  <img border="0" src="B4w_make.png" width="20" height="20"> and forms the input to 
+  the BibTeX program. It tells BibTeX which style to use and lists all the 
+  citations in your document.</dd>
+  <dt><font face="Arial">bibtex4word.bbl</font></dt>
+  <dd>BibTeX creates this file which gives the contents of teh bibliography in 
+  LaTeX format. Bibtex4Word reads this file, interprets the LaTeX commands it 
+  contains and uses this information to write the bibliography. Some styles may 
+  use commands that Bibtex4Word cannot interpret; when this happens, the command 
+  will be ignored but a message will be written in <font face="Arial">
+  bibtex4word.log</font>. This is the most likely cause of incorrect formatting 
+  in the bibliography.</dd>
+  <dt><font face="Arial">bibtex4word.blg</font></dt>
+  <dd>&nbsp;BibTeX creates this file which includes any error messages that 
+  occurred when BibTeX executed.</dd>
+</dl>
+<hr>
+<address>This page is part of the <a href="b4w_intro.html">Bibtex4Word</a> 
+  				documentation. Copyright &copy; 2006-2013 <a href=
+"http://www.ee.ic.ac.uk/hp/staff/dmb/dmb.html">Mike Brookes</a>, Imperial
+College, London, UK. See the file <a href="gfl.html">gfl.html</a> for copying
+instructions. Please send any comments or suggestions to "mike.brookes" at
+"imperial.ac.uk".<br>
+Updated: $Id: b4w_reference.html 2836 2013-03-23 09:53:32Z dmb $</address>
+<hr>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-6956824-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+</body>
+</html>
