@@ -153,7 +153,7 @@ def main():
 				if item in cList:
 					y+=1
 				del nnDict[item]
-			#scores = sharedNN(docDict, nnDict)
+			scores = sharedNN(docDict, nnDict)
 			print("Deleted pairs are {}% of total correct pairs, {}% of deleted pairs was wrongly deleted".format(round(y/len(cList)*100.0,2), round(y/len(deleteList)*100.0,2)))
 
 			for combo in clusterCount.most_common(20):
@@ -166,12 +166,6 @@ def main():
 
 	#print("Total precision  is {}, {} clusters correct".format(scoreList[1]/scoreList[0], scoreList[1]))
 
-
-			#scores = sharedNN(docDict,nnDict)
-
-						# pairscore = LSTMcomp((docDict[pair[0]],docDict[pair[1]]),match)
-						# scoreDict[pair[0]].append((pair[1],pairscore))
-						# scoreDict[pair[1]].append((pair[0],pairscore))
 
 			if not os.path.exists('answers/'+problem):
 				os.mkdir('answers/'+problem)
@@ -187,7 +181,7 @@ def main():
 				if len(value) > 1 :
 					pairs = combinations(value,2)
 				for pair in pairs:
-					rankList.append({"document1": pair[0], "document2": pair[1], "score":  1})
+					rankList.append({"document1": pair[0], "document2": pair[1], "score":  scores[pair][0]})
 			with open('answers/'+problem+'/ranking.json', "w") as jsonFile:
 				ujson.dump(rankList, jsonFile, indent=4)
 

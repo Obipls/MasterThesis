@@ -9,10 +9,13 @@ from collections import Counter
 
 
 def sharedNN(docDict, nnDict):
+	pairDict = {}
+	keyList = []
 	Y = [np.bool_(y) for y in list(nnDict.values())]
 	X = []
 
 	for key in nnDict.keys():
+		keyList.append(key)
 		docTuple = (docDict[key[0]], docDict[key[1]])
 		doc1 = docTuple[0].reshape(1, len(docTuple[0]))
 		doc2 = docTuple[1].reshape(1, len(docTuple[1]))
@@ -33,9 +36,12 @@ def sharedNN(docDict, nnDict):
 	model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 	model.fit(X, Y, nb_epoch=20, verbose=2)
 	#import pdb; pdb.set_trace()
-	predictions = model.predict(X, batch_size=len(X), verbose=0)
+	pred = model.predict(X, batch_size=len(X), verbose=0)
+	for key in enumerate(keyList):
+		pairDict[key] = list(pred)[i]
 
-	return predictions
+
+	return pairDict
 
 def embedNN(X,Y):
 	X = np.asarray([i for i in X], dtype=np.float32)

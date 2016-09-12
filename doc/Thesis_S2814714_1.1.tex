@@ -1,0 +1,843 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin2]{inputenc}
+\usepackage{graphicx}
+\usepackage{ulem}
+\usepackage{amsmath}
+\begin{document}
+\begin{center}PAN 2016 shared task \end{center}
+
+\begin{center}Author identification\end{center}
+
+\begin{center}Can a clustering sandwich help a neural network
+\end{center}
+
+\begin{center}in establishing authorship links?\end{center}
+
+
+
+\begin{center}Olivier Louwaars (s2814714), Department of Information 
+Science\end{center}
+
+\begin{center}Rijksuniversiteit Groningen\end{center}
+
+
+
+\newpage
+
+
+Abstract
+
+Faced with the problem of having an unknown number of authors writing an 
+unknown number of documents that might but do not necessarily have the 
+same topic, we came up with a pipeline of a K-Means clustering algorithm 
+informing a neural network to establish document similarity and which 
+then informs a Meanshift algorithm that outputs the final clusters (each 
+cluster representing an author and enveloping one or more documents). 
+The data provided by PAN consists of 18 problems that each consist of 
+50-100 documents from various authors. Every problem has either news 
+articles or reviews, and is written in English, Dutch or Greek. Document 
+length differs from 130 to 1000 words. This is not enough training data 
+for a neural network, so character based features were created for 
+training. Also, the task itself limited feature selection to 
+character-only as well. If words or word n-grams would have been used, 
+the initial assumption was that the system would be tricked easily into 
+clustering on topic instead of author. As all documents within a problem 
+have one genre, it is not unimaginable that documents from different 
+authors have the same topic, and are therefore grouped together. 
+Preventing the system from topic clustering and aiming it at author 
+clustering was one of the biggest challenges in this task.\\
+The most promising feature for this task were character based skipgrams 
+$[$1$]$ pairing every character with either a neighboring one (positive 
+sample) or one further away (negative sample). The embeddings thus 
+created informed the neural network with underlying information 
+regarding character sequences and structures. Although the task is to 
+cluster all documents of a single author, the chosen approach was to 
+train the neural network with every possible document pair, like the PAN 
+2015 task for author identification. The baseline thus created was very 
+high (94\%), resulting in a default decision to most frequent class 
+(negative) for all samples. The K-Means clusterer was added to see if 
+the number of pairs could be cut back, as a set of 50 documents already 
+results in over 1200 possible pairs. K-Means was run with an iterative 
+setting of $[$1:n-1$]$ clusters, after which the total of document 
+clusters was counted. If two documents were never clustered together, 
+they were stripped from the input for the neural network. This lead to a 
+50\% reduction in document pairs, but also a 25\% reduction of correct 
+pairs. Although this improved the baseline slightly, the data was still 
+to biased for the neural network to be able to detect correct pairs in 
+the training data, creating useless output of the network, which gave 
+the Meanshift no additional features to work with. During development 
+and tweaking of the neural network, the initial deadline for the shared 
+task expired without submitting a working system. When the overview 
+paper was published, the used method (on development set) could still be 
+compared to the test set results of the other team. Based on only 
+character based preprocessed data, as this lead to the best result in 
+the PAN task of 2015 $[$2$]$, Meanshift output had a precision of 0.12 
+on average. Using a Scikit-learn Countvectorizer for preprocessing the 
+data with both word Ngram counts and normal word counts, the BCubed 
+precision was 0.256, with a BCubed F-score of 0.376 (8$^{th}$ out of 
+9 participants). This measure was also applied by the task committee and 
+although the system was not submitted, results could be compared with 
+other participants afterwards $[$3$]$. The second part of the task, the 
+ranking of links within clusters resulted in a mean average precision of 
+0.014 (5$^{th}$ place)\newpage
+
+
+\newpage
+
+
+\newcounter{numberedCntB}
+\begin{enumerate}
+\item \section{Introduction}\label{section:_Toc457563611}
+\setcounter{numberedCntB}{\theenumi}
+\end{enumerate}
+
+
+With the publishing and sharing of documents being accessible to 
+everybody, the need to verify what was written by who becomes apparent. 
+Not only to prevent plagiarism, but also to prevent texts from being 
+attributed to an author they do not belong to. Since 2011, PAN contains 
+a shared task regarding automatic authorship identification. Where in 
+recent years the task focused on determining whether or not a certain 
+document belongs to a set of known documents of an author, the 2016 task 
+is to cluster documents per author, without knowing the number of 
+contributing authors. Additionally, the task also comprises a second 
+step, in which the certainty of links has to be established between the 
+different documents within a cluster/author. This second step is 
+comparable with the earlier shared tasks, as it is a one on one 
+comparison of documents. Depending on the similarity of two documents, 
+the certainty of the author of both can be established (!!!Unresolved 
+reference!!!). If the results of this shared task are satisfactory, the 
+method can be applied on, for example, a portfolio of documents of 
+students, to see if the author of all documents is the same. To make 
+sure both steps are executed properly and no work is duplicated, the 
+following research question will be the foundation of this research:
+
+"\,Can a recurrent neural network help traditional clustering algorithms 
+in clustering documents per author?"
+
+To back up the main questions, the following sub questions can be 
+formulated: 
+
+-\ \ \ \ What features are important for the initial clustering per 
+author?
+
+-\ \ \ \ What features are important for establishing links between 
+documents?
+
+-\ \ \ \ Can the system be prevented from clustering based on obvious 
+but wrong patterns such as topic?
+
+In this thesis, at first related work and literature will be explored, 
+based on which the approach to tackle the problem and answering the 
+research question will be explained, followed by the results and the 
+conclusion based on those results.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=16.00cm,height=3.42cm]{media/image1.eps}
+\end{figure}
+
+
+Figure 1: Examples of complete clustering (left) and authorship-link 
+ranking (right). $[$3$]$
+
+\newpage
+
+
+\begin{enumerate}
+\setcounter{enumi}{\thenumberedCntB}
+\item \section{Method}\label{section:_Toc457563612}
+\setcounter{numberedCntB}{\theenumi}
+\end{enumerate}
+
+
+Plagiarism detection is a hot topic in scientific research, as it is now 
+easier than ever to copy work someone else did and claim the results for 
+yourself. Detectors are available for a long time, with plenty of 
+research done on best practices and approaches, depending on the 
+structure and the type of the available data. For this task, the data is 
+split into 18 problems. Every problem has 50-100 documents that all have 
+the same genre (news or review) and language (English, Dutch or Greek), 
+equally distributed over the problems (!!!Unresolved reference!!!). 
+Every problem also has a r of either 0.5, 0.7 or 0.9. R in indicative 
+for the number of clusters with multiple authors; the lower r, the 
+higher the chance that the problem has multi-author clusters. R 
+correlates with max C, the maximum number of documents in a cluster. 
+
+The small amount of data excludes the most promising solutions, as 
+artificial neural networks combined with word embeddings are state of 
+the art in solving practically any language related problem. Therefore, 
+a less explored approach will be sought in this chapter.
+
+Table 1: Evaluation datasets (left=training, right=test).
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{ID} & \textbf{Lang} & \textbf{Genre} & \textbf{r} & 
+\textbf{N} & \textbf{k} & \textbf{Links} & \textbf{max C} & 
+\textbf{Words} & & \textbf{ID} & \textbf{Lang} & \textbf{Genre} 
+& \textbf{r} & \textbf{N} & \textbf{k} & \textbf{Links} & 
+\textbf{max C} & \textbf{Words} \\
+\hline
+001 & English & articles & 0.70 & 50 & 35 & 26 & 5 & 752.3 & & 001 & 
+English & articles & 0.71 & 70 & 50 & 33 & 5 & 582.4 \\
+\hline
+002 & English & articles & 0.50 & 50 & 25 & 75 & 9 & 756.2 & & 002 & 
+English & articles & 0.50 & 70 & 35 & 113 & 8 & 587.3 \\
+\hline
+003 & English & articles & 0.86 & 50 & 43 & 8 & 3 & 744.7 & & 003 & 
+English & articles & 0.91 & 70 & 64 & 7 & 3 & 579.8 \\
+\hline
+004 & English & reviews & 0.69 & 80 & 55 & 36 & 4 & 977.8 & & 004 & 
+English & reviews & 0.73 & 80 & 58 & 30 & 4 & 1,011.2 \\
+\hline
+005 & English & reviews & 0.88 & 80 & 70 & 12 & 3 & 1,089.7 & & 005 & 
+English & reviews & 0.90 & 80 & 72 & 10 & 3 & 1,030.4 \\
+\hline
+006 & English & reviews & 0.50 & 80 & 40 & 65 & 5 & 1,029.4 & & 006 & 
+English & reviews & 0.53 & 80 & 42 & 68 & 5 & 1,003.7 \\
+\hline
+007 & Dutch & articles & 0.89 & 57 & 51 & 7 & 3 & 1,074.7 & & 007 & 
+Dutch & articles & 0.74 & 57 & 42 & 24 & 4 & 1,172.1 \\
+\hline
+008 & Dutch & articles & 0.49 & 57 & 28 & 76 & 7 & 1,321.9 & & 008 & 
+Dutch & articles & 0.88 & 57 & 50 & 8 & 3 & 1,178.4 \\
+\hline
+009 & Dutch & articles & 0.70 & 57 & 40 & 30 & 4 & 1,014.8 & & 009 & 
+Dutch & articles & 0.53 & 57 & 30 & 65 & 7 & 945.2 \\
+\hline
+010 & Dutch & reviews & 0.54 & 100 & 54 & 77 & 4 & 128.2 & & 010 & Dutch 
+& reviews & 0.88 & 100 & 88 & 16 & 4 & 151.7 \\
+\hline
+011 & Dutch & reviews & 0.67 & 100 & 67 & 46 & 4 & 134.9 & & 011 & Dutch 
+& reviews & 0.51 & 100 & 51 & 76 & 4 & 150.3 \\
+\hline
+012 & Dutch & reviews & 0.91 & 100 & 91 & 10 & 3 & 125.3 & & 012 & Dutch 
+& reviews & 0.71 & 100 & 71 & 37 & 4 & 155.9 \\
+\hline
+013 & Greek & articles & 0.51 & 55 & 28 & 38 & 4 & 748.9 & & 013 & Greek 
+& articles & 0.71 & 70 & 50 & 24 & 4 & 720.5 \\
+\hline
+014 & Greek & articles & 0.69 & 55 & 38 & 25 & 5 & 741.6 & & 014 & Greek 
+& articles & 0.50 & 70 & 35 & 52 & 4 & 750.3 \\
+\hline
+015 & Greek & articles & 0.87 & 55 & 48 & 8 & 3 & 726.8 & & 015 & Greek 
+& articles & 0.89 & 70 & 62 & 9 & 3 & 737.6 \\
+\hline
+016 & Greek & reviews & 0.91 & 55 & 50 & 6 & 3 & 523.4 & & 016 & Greek & 
+reviews & 0.73 & 70 & 51 & 24 & 4 & 434.8 \\
+\hline
+017 & Greek & reviews & 0.51 & 55 & 28 & 55 & 8 & 633.9 & & 017 & Greek 
+& reviews & 0.91 & 70 & 64 & 7 & 3 & 428.0 \\
+\hline
+018 & Greek & reviews & 0.73 & 55 & 40 & 19 & 3 & 562.9 & & 018 & Greek 
+& reviews & 0.53 & 70 & 37 & 44 & 4 & 536.9 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\newpage
+
+
+\begin{enumerate}
+\item \subsection{Related work\\
+}\label{section:_Toc457563613}
+\end{enumerate}
+Most recent work focused on comparing a new document to a set of known 
+documents from one author, as that is the most logical approach if there 
+is data available. The decision making was binary which does not make it 
+a good source for this research. Instead, the method used by the winning 
+team of PAN 2015 offers an interesting view on the problem. Using multi 
+headed artificial neural networks$[$4$]$, he was able to link two 
+documents together if they belonged to the same author. Using this 
+approach for clustering would of course take a lot of processing time as 
+all possible pairs must be compared, but if it works it might be very 
+good at clustering all the right documents together. \\
+Although primarily applied on other topics, clustering itself is of 
+course well explored. Many algorithms have been developed that can find 
+the center of dense clusters and compute to what range the cluster 
+extends. In most cases however, the algorithm needs to know on 
+beforehand how many clusters it is supposed to use to be able to find 
+the right centers. An exception on this is Meanshift $[$5$]$, a hill 
+climbing algorithm that keeps looking for better centroids and is able 
+to add more clusters if necessary. Meanshift is proven to be effective 
+in determining the number of clusters and has several software 
+implementations that can be used off the shelf. Before Meanshift was 
+developed, the research of Holmes and Forsyth already tried to achieve a 
+very similar result $[$6$]$. They tested their method on the very famous 
+(and notorious in NLP tasks) federalist papers, a set of articles about 
+the American constitution written by three authors. Their dataset is 
+comparable to the one used for this research, which makes their approach 
+relevant. Many of the features used by Holmes and Forsyth are quite 
+common these days, such as word frequency counting, like tf-idf now, and 
+trying to find stylistic patterns for authors in documents. This last 
+feature is especially important for this task; most clustering 
+algorithms will look for word or ngram similiarity when trying to find 
+similar documents. Similar words still can be an indication for similar 
+documents, but there is a risk that although the documents are alike, 
+they are not from the same author because they all have the same genre. 
+A field in which stylistic features are even more important is 
+engineering, where many articles are written on the same topic and 
+genre. This makes the research of Berry and Sazonov about the clustering 
+of technical documents an interesting and reliable source. The nature of 
+the documents in their dataset makes them highly structured and 
+restricted $[$7$]$, making the effect of stylistic feature selection 
+extra visible. Although less technical, the documents in the current 
+dataset can also be identical in structure and covered subjects. Berry 
+and Sazonov say that sometimes the preference of an author for one word 
+over another can be enough to distinguish who wrote what. This high 
+influence of small features is something to keep in mind in this 
+approach, as it can change the outcome in a very strong way.
+
+\newpage
+
+
+\begin{enumerate}
+\item \subsection{Approach}\label{section:_Toc457563614}
+\end{enumerate}
+
+
+Based on the earlier work and proven concepts, a combined approach of 
+all will be attempted. The largest restriction is that the entire system 
+will have to be built in Python, as both the thesis and the shared task 
+are on a tight schedule. This leaves no room for learning a new 
+programming language. Python does provide all necessary tools for the 
+task, and has modules for all desired features. Scikit-learn provides an 
+excellent API for several clustering algorithms and preprocessing steps, 
+and Keras allows for building an artificial neural network on either the 
+TensorFlow or the Theano backend.
+
+In order to train the system, the most promising features must be 
+selected and applied. As the approach will be based on Bagnall's, his 
+feature selection also applies for this problem. Training a neural 
+network requires vast amounts of data, so the only way to do this is by 
+looking at characters instead of words. On character level you can apply 
+almost all techniques used on words, like the relative and absolute 
+frequency of characters per document and the full corpus (tf-idf). 
+Metadata about the documents will also be added, informing the system 
+about the average sentence and word length, punctuation usage and number 
+of mid-sentence capital letters. These stylistic features can be very 
+indicative about an author, but according to Bagnall they should not be 
+fed raw into the neural network. This could lead to the network 
+assigning a too great weight to a small feature, and negatively 
+influence decision making. Therefore, Bagnall proposes to normalize all 
+uncommon characters $[$4$]$. Different commas, ellipses (\ldots ), 
+quotation marks (single and double) and dashes (longer and shorter) all 
+should be converted to a single style. Furthermore, additional 
+whitespace must be stripped and all numbers and Latin characters in 
+Greek texts should be normalized to a common placeholder to keep their 
+weight evenly distributed. As final step, Bagnall recommends to convert 
+every character into the NFKD unicode normal form. This form describes 
+the character instead of displaying it, splitting it up if it has an 
+accent on it to describe the accent separately (!!!Unresolved 
+reference!!!). 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=9.36cm,height=4.40cm]{media/image2.eps}
+\end{figure}
+
+
+Figure 2: Different unicode forms and their output.
+
+The result of all normalization steps is a human unreadable list of 
+strings per document, that can be used by both Keras an Scikit-learn for 
+further preprocessing the data.\\
+The assumption is that clustering and an artificial neural network can 
+inform each other in order to achieve better results on the data. The 
+idea of Bagnall to use a neural network for ranking document similarity 
+is very promising, but time consuming on this many document pairs. Each 
+of the 18 problems has at least 50 documents, which leads to at least 
+1225 unique pairs per problem that need to be processed. It would 
+therefore be very useful to remove certain pairs that are highly 
+unlikely from the initial set. This removal should be done discreetly, 
+as it is better to remove too less faulty pairs than too much pairs that 
+should be together. This will make the training data less skewed, and 
+cut back the processing time as well. The pairs can be shifted using a 
+K-Means clusterer with an unspecified number of clusters. K-Means 
+expects the user to set the desired number of clusters (k), so by 
+iterating through a K of $[$1:n-1$]$, all possibilities will be tried. 
+The cluster output can then be added together, to see which documents 
+are never clustered together. That particular pair can then be removed 
+from the full set. Once the set of document pairs has been trimmed, the 
+remaining texts can be preprocessed to be fed into Keras's Long 
+Short-Term Memory, or LSTM, neural network $[$8$]$. LSTM is a type of 
+recurrent neural network that is especially good in processing and 
+predicting texts, as it looks back at everything it learned until now. 
+This means that an LSTM is able to learn rules from a correct pair and 
+apply them on the current pair, even if there is a high number of 
+incorrect pairs in between. Given the skewed data for this task, it is 
+important that the network remembers the sparse correct pairs as good 
+and as long as possible. LSTM's do have limitations on length however, 
+so it might be that the long sequences of characters are too much for it 
+to keep learning correctly. But just like any other implementation in 
+Keras, LSTM's are stackable and should be able to fit the entire 
+sequence of characters in the documents. LSTM expects the data in three 
+dimensions of (nb\_sequences, nb\_samples, input\_dim). Sequences is 
+defined by the total number of sequences, samples by the length of one 
+document and input dimension by the total of different characters in the 
+vocabulary, so 26 + some special ones. The data itself must be one-hot 
+encoded, with each character being represented by a number in 
+range$[$input\_dim$]$. Once encoded, the entire dataset will be 
+converted into a 3D matrix by Keras's preprocessing tools for the 
+network to use. As an extra feature, character embeddings will be 
+constructed using skipgrams $[$1$]$. By encoding all possible character 
+pairs with either 1 if they are neighbors, and 0 if the pairs are far 
+apart, a vector can be built of what characters are likely and unlikely 
+to occur together. \\
+The ratings of one document versus every other will be used as an 
+additional feature for the Meanshift algorithm. Experiments will have to 
+point out whether the feature should be shaped like a list with 1's and 
+0's, or more like a dictionary with one document as key and all its 
+matches as values. The Meanshift implementation in Scikit-learn offers 
+few parameters, and is able to calculate the bandwidth it should use 
+based on the data. A too small bandwidth results in many clusters while 
+there might be overlapping ones, and a too large bandwidth merges too 
+many clusters, resulting in only a few final clusters. The output of 
+Meanshift will be a list of documents per cluster, that can be 
+transformed in the same JSON format the task committee provides the 
+truth data in. Using the online review environment Tira $[$9$]$, 
+automatic evaluation of the answers given versus the gold standard data 
+will be done. Evaluation results will be according to the Bcubed score 
+$[$10$]$, a measure that combines the scores within a cluster with the 
+ones across clusters for computing precision and recall (!!!Unresolved 
+reference!!!). This results in different scores per language and per 
+genre, with a total score over all problems that all will be described 
+in the next chapter. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10.13cm,height=4.11cm]{media/image3.eps}
+\end{figure}
+
+
+Figure 3: Calculation of Bcubed precision and recall
+
+\begin{enumerate}
+\setcounter{enumi}{\thenumberedCntB}
+\item \section{Results}\label{section:_Ref457304642}
+\setcounter{numberedCntB}{\theenumi}
+\end{enumerate}
+
+
+When coding the software based on the dataflow from the previous 
+chapter, it soon turned out that the sequences of characters were in 
+fact too long for a LSTM recurrent neural network to process. The 
+correct pairs were just too sparse for the network to remember the 
+previous one when encountering a new one, resulting in a preference for 
+the most frequent class with no apparent learning. This was only 
+worsened by using the pairwise comparison in the neural network. With 
+the aforementioned example of 1200 pairs, created from just 50 
+documents, only about 70 of 1200 would be correct pairs. This gives a 
+tough to beat baseline of 94\%, with far too little correct data for the 
+network to learn from. Using the K-Means clusterer to strip unlikely 
+pairs was successful, removing about half of the total, but at a cost of 
+25\% of correct pairs. In absolute numbers it was a very successful 
+method, but relatively without effect to lower the most frequent class 
+baseline. 
+
+Meanwhile, during the development of the system and continuous tweaks to 
+get the neural network going, the deadline for the shared task expired. 
+No working software was submitted because the pipeline could not be 
+completed in time, which made official evaluation at that point 
+impossible too. Unofficial measures show a precision of 0.1 per problem 
+on average over the 20 most common pairs in a cluster. This means that, 
+of all clusters returned from the K-Means iterations, only the top 20 is 
+taken into account. Of this 20, only 10\% (so 2 pairs) would usually be 
+correct according to the gold standard. So K-Means was an outstanding 
+preprocessor if executed before the neural network, but performed bad if 
+its output was used as final data. The iteration over all possible 
+number of clusters made the output unfit for comparison with the gold 
+standard, so a single K should be chosen or computed first. The returned 
+data after iteration gave no indication when it performed best, so only 
+a rule based K could be implemented. Exploring the development data 
+showed that in most problems less than one third of all articles share 
+clusters, so two third of all clusters are only populated by a single 
+document or author. Implementing K-Means with K=2/3(N) worked out well 
+in F-score (!!!Unresolved reference!!!), it is a highly unstable method 
+on unseen testdata, as it assumes that the shape will always be the same 
+as that of the development data. The good results in !!!Unresolved 
+reference!!! are only because of rules based on the observations, and 
+working with a rule based system is never recommended if sufficient data 
+for machine learning is available. Despite performing significantly less 
+than K-Means, the idea was that Meanshift is better prepared for unseen 
+data, making it a better candidate for final implementation.
+
+With the neural network out of the system, a different set of features 
+was selected to optimize the clustering algorithms. The data provided 
+was not very extensive, but big enough for word based features for 
+clustering. Changing from characters to words greatly influenced 
+clustering performance, with acceptable results. However, adding 
+features outside of stripping accents and ngrams did not contribute to a 
+higher score. Clustering performed the same, regardless of adding word 
+or punctuation counts. The system seemed to ignore topic similar 
+documents by itself, clustering based on stylistic features instead in 
+many cases. Once again, this was primarily the case with K-Means that 
+performed much better than expected.
+
+
+
+
+
+
+
+
+
+Table 2: Experiment results per system
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{System } & Complete clustering & & Link ranking & Runtime (s) 
+\\
+\hline
+  & B3 F & B3 rec. & B3 prec. &   & MAP &   \\
+\hline
+MS Word & 0.376 & 0.877 & 0.256 & & 0.014 & 208 \\
+\hline
+MS Char & 0.065 & 1 & 0.034 & & 0.020 & 174 \\
+\hline
+KM Word & 0.696 & 0.732 & 0.676 & & 0.008 & 191 \\
+\hline
+KM Char & 0.065 & 1 & 0.034 &   & 0.020 & 135 \\
+\hline
+Baseline & 0.811 & 0.697 & 1 &   & 0 & 120 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+Because no ranking within clusters could be made without a neural 
+network, it was decided to give every link of two documents within a 
+cluster a certainty of 1, trusting on the accuracy of Meanshift. Due to 
+the presentation of the overview paper $[$3$]$ of the 2016 shared task, 
+the evaluation script and other results also were made available for 
+comparison (!!!Unresolved reference!!!). Note that the results in the 
+table are presumably on the test set, while our results are on the 
+development set. As seen before the two datasets are very alike 
+(!!!Unresolved reference!!!), so the results also might be comparable, 
+but this should be said with great caution. 
+
+\\
+The results of Meanshift are surprisingly good for the simple 
+implementation via Scikit-learn, although only Bcubed recall for 
+clustering and mean average precision for ranking are above the random 
+baseline. Especially Singleton baseline performed very well on 
+clustering, as the large majority of clusters only consisted of a single 
+document. Only Bagnall, also winner of last year and following a similar 
+approach as this research, and Kocher were able to beat it in Bcubed 
+F-score, and only just. Cosine baseline on the other hand seemed very 
+low and easy to beat at first sight, because it would purely focus on 
+word similarities between documents. This feature was exactly what all 
+participants wanted to avoid as it would rank by topic instead of by 
+author, but even by actively only selecting stylometric features only 
+two participants were able to beat it.
+
+Table 3: FInal results of the PAN 2016 shared task for author 
+clustering. $[$3$]$
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Participant } & \textbf{ Complete clustering } & & \textbf{ 
+Authorship-link ranking} & \textbf{Runtime} \\
+\hline
+  & B3 F & B3 rec. & B3 prec. & & MAP & RP & P@10 &   \\
+\hline
+Bagnall & \textbf{0.822} & 0.726 & 0.977 & & \textbf{0.169} & 
+\textbf{0.168} & \textbf{0.283} & 63:03:59 \\
+\hline
+Gobeill & 0.706 & 0.767 & 0.737 & & 0.115 & 0.131 & 0.233 & 00:00:39 \\
+\hline
+Kocher & \textbf{0.822} & 0.722 & \textbf{0.982} & & 0.054 & 0.050 & 
+0.117 & 00:01:51 \\
+\hline
+Kuttichira & 0.588 & 0.720 & 0.512 & & 0.001 & 0.010 & 0.006 & 00:00:42 
+\\
+\hline
+\underline{Louwaars MS} & \underline{0.376} & \underline{0.877} & 
+\underline{0.256} & & \underline{0.014} & \underline{-} & 
+\underline{-} & \underline{00:03:28} \\
+\hline
+Mansoorizadeh \textit{et al.} & 0.401 & 0.822 & 0.280 & & 0.009 & 
+0.012 & 0.011 & 00:00:17 \\
+\hline
+Sari \& Stevenson & 0.795 & 0.733 & 0.893 & & 0.040 & 0.065 & 0.217 & 
+00:07:48 \\
+\hline
+Vartapetiance \& Gillam & 0.234 & \textbf{0.935} & 0.195 & & 0.012 & 
+0.023 & 0.044 & 03:03:13 \\
+\hline
+Zmiycharov \textit{et al.} & 0.768 & 0.716 & 0.852 & & 0.003 & 0.016 & 
+0.033 & 01:22:56 \\
+\hline
+BASELINE-Random & 0.667 & 0.714 & 0.641 & & 0.002 & 0.009 & 0.013 & - \\
+\hline
+BASELINE-Singleton & 0.821 & 0.711 & \textbf{1.000} & & - & - & - & - 
+\\
+\hline
+BASELINE-Cosine & - & - & - & & 0.060 & 0.074 & 0.139 & - \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\newpage
+
+
+Detailed results per genre and language for clustering can be found in 
+!!!Unresolved reference!!!. Interesting in these results is the high 
+difference in languages where most teams have an almost equal score for 
+all three. Although the system was only working with character features, 
+somehow it was much better in clustering Dutch texts than Greek or 
+English. Also, the ratio between scores of articles and reviews differs 
+per participant, with no clear pattern in which genre is easier or 
+tougher to cluster. Contrary to most participants, a lower r only leads 
+to higher F-scores. The difference between the participants and 
+baselines is even clearer in this table, and shows that despite the 
+naivety of the baselines they perform far better than most teams. 
+
+Table 4: Evaluation results (mean BCubed F-score) for the complete 
+author clustering task. $[$3$]$
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Participant} & \textbf{Overall} & \textbf{Articles} & 
+\textbf{Reviews} & \textbf{English} & \textbf{Dutch} & \textbf{
+Greek} & \textbf{\textit{r}}\textit{?}\textbf{0.9} & \textbf{
+\textit{r}}\textit{?}\textbf{0.7} & \textbf{\textit{r}}
+\textit{?}\textbf{0.5} \\
+\hline
+Bagnall & \textbf{0.822} & \textbf{0.817} & \textbf{0.828} & 
+\textbf{0.820} & \textbf{0.815} & 0.832 & 0.931 & 0.840 & \textbf{
+0.695} \\
+\hline
+Kocher & \textbf{0.822} & \textbf{0.817} & 0.827 & 0.818 & \textbf{
+0.815} & \textbf{0.833} & \textbf{0.933} & \textbf{0.843} & 0.690 
+\\
+\hline
+BASELINE-Singleton & 0.821 & \textbf{0.819} & 0.823 & \textbf{0.822} 
+& \textbf{0.819} & 0.822 & \textbf{0.945} & 0.838 & 0.680 \\
+\hline
+Sari \& Stevenson & 0.795 & 0.789 & 0.801 & 0.784 & 0.789 & 0.813 & 
+0.887 & 0.812 & 0.687 \\
+\hline
+Zmiycharov \textit{et al.} & 0.768 & 0.761 & 0.776 & 0.781 & 0.759 & 
+0.765 & 0.877 & 0.777 & 0.651 \\
+\hline
+Gobeill & 0.706 & 0.800 & 0.611 & 0.805 & 0.606 & 0.707 & 0.756 & 0.722 
+& 0.639 \\
+\hline
+BASELINE-Random & 0.667 & 0.666 & 0.667 & 0.668 & 0.665 & 0.667 & 0.745 
+& 0.678 & 0.577 \\
+\hline
+Kuttichira & 0.588 & 0.626 & 0.550 & 0.579 & 0.584 & 0.601 & 0.647 & 
+0.599 & 0.519 \\
+\hline
+Mansoorizadeh \textit{et al.} & 0.401 & 0.367 & 0.435 & 0.486 & 0.256 
+& 0.460 & 0.426 & 0.373 & 0.403 \\
+\hline
+\underline{Louwaars MS} & \underline{0.376} & \underline{0.386} & 
+\underline{0.367} & \underline{0.27} & \underline{0.465} & 
+\underline{0.394} & \underline{0.356} & \underline{0.376} & 
+\underline{0.397} \\
+\hline
+Vartapetiance \& Gillam & 0.234 & 0.284 & 0.183 & 0.057 & 0.595 & 0.049 
+& 0.230 & 0.241 & 0.230 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+!!!Unresolved reference!!! makes the results for authorship ranking 
+insightful per genre and language. Again, no genre is consequently 
+ranked better than the other, but there seems to be a tendency of Dutch 
+ranks scoring the lowest throughout all teams. Although the achieved 
+mean average precision of 0.014 seems incredibly low, in this table it 
+turns out to be halfway between the best and worst results. The fully 
+random baseline was narrowly beaten, but cosine similarity appeared to 
+be far more indicative of link ranks than assumed, especially for Greek. 
+!!!Unresolved reference!!! also shows the same rising scores as 
+!!!Unresolved reference!!! with a descending r, but for the ranking all 
+other teams show the same behavior. 
+
+Table 5: Evaluation results (MAP) for the authorship-link ranking task. 
+$[$3$]$
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\textbf{Participant} & \textbf{Overall} & \textbf{Articles} & 
+\textbf{Reviews} & \textbf{English} & \textbf{Dutch} & \textbf{
+Greek} & \textbf{\textit{r}}\textit{?}\textbf{0.9} & \textbf{
+\textit{r}}\textit{?}\textbf{0.7} & \textbf{\textit{r}}
+\textit{?}\textbf{0.5} \\
+\hline
+Bagnall & \textbf{0.169} & \textbf{0.174} & \textbf{0.163} & 
+\textbf{0.126} & \textbf{0.109} & \textbf{0.272} & \textbf{0.064
+} & \textbf{0.186} & \textbf{0.257} \\
+\hline
+Gobeill & 0.115 & 0.119 & 0.110 & 0.097 & 0.079 & 0.168 & 0.040 & 0.105 
+& 0.198 \\
+\hline
+BASELINE-Cosine & 0.060 & 0.063 & 0.057 & 0.053 & 0.053 & 0.074 & 0.019 
+& 0.054 & 0.107 \\
+\hline
+Kocher & 0.054 & 0.047 & 0.061 & 0.032 & 0.044 & 0.085 & 0.042 & 0.058 & 
+0.063 \\
+\hline
+Sari \& Stevenson & 0.040 & 0.033 & 0.047 & 0.009 & 0.042 & 0.069 & 
+0.017 & 0.041 & 0.062 \\
+\hline
+\underline{Louwaars MS} & \underline{0.014} & & \underline{0.015} 
+& \underline{0.013} & \underline{0.016} & \underline{0.007} & 
+\underline{0.018} & \underline{0.004} & \underline{0.01} & 
+\underline{0.027} \\
+\hline
+Vartapetiance \& Gillam & 0.012 & 0.010 & 0.014 & 0.014 & 0.006 & 0.016 
+& 0.010 & 0.008 & 0.017 \\
+\hline
+Mansoorizadeh \textit{et al.} & 0.009 & 0.013 & 0.004 & 0.006 & 0.010 
+& 0.010 & 0.002 & 0.009 & 0.014 \\
+\hline
+Zmiycharov \textit{et al.} & 0.003 & 0.002 & 0.004 & 0.001 & 0.000 & 
+0.009 & 0.002 & 0.003 & 0.004 \\
+\hline
+BASELINE-Random & 0.002 & 0.002 & 0.001 & 0.001 & 0.002 & 0.002 & 0.001 
+& 0.001 & 0.002 \\
+\hline
+Kuttichira & 0.001 & 0.002 & 0.001 & 0.001 & 0.002 & 0.001 & 0.001 & 
+0.002 & 0.001 \\
+\hline
+\end{tabular}
+\end{table}
+\newpage
+
+
+\begin{enumerate}
+\setcounter{enumi}{\thenumberedCntB}
+\item \section{Discussion}\label{section:_Toc457563616}
+\setcounter{numberedCntB}{\theenumi}
+\end{enumerate}
+In this final chapter all unexpected results will be presented, with a 
+possible explanation if there is one at hand. Also, a general reflection 
+on the designing and development of the system will be given with an 
+answer on the research questions.
+
+\begin{enumerate}
+\item \subsection{Evaluation}\label{section:_Toc457563617}
+\end{enumerate}
+The results presented in chapter \ref{section:_Ref457304642}. are far 
+worse than anticipated on beforehand, but seeing them in context with 
+the other teams helps understanding that they are not that bad. Given 
+the failure of the most important processing part of the system, the 
+recurrent neural network, the result is quite satisfactory and in line 
+with the others. One thing that stands out however, are the 
+irregularities in scores in comparison with other teams. Where most 
+teams have an equal score for all languages, our system has a clear 
+preference for one over the other, and is especially good in Dutch and 
+bad in English. An explanation for this can be given by the unicode 
+normalization step in the process. unicode encodes accents on characters 
+as separate characters, and as Dutch has more accented letters than 
+English, these encodings might be highly informative. 
+
+R values are also the reverse of most teams, with better results with a 
+lower r. This can be explained by the conservatism of Meanshift, as it 
+tends to use as few clusters as possible, and therefore performs better 
+in problems with a small k. Finding a way to increase the number 
+clusters found by Meanshift would therefore increase the overall 
+performance of the software and seems promising for future research. 
+Another recommendation is to apply cosine similarity in link ranking, 
+because it worked surprisingly well for cosine baseline. At first the 
+thought was that the baseline would be misguided by topic of documents, 
+as even the task committee underwrote, but this turned out to be false 
+as the baseline had the third score of all teams. An indication of the 
+similarity preferences of the system was already given in the clustering 
+process, as clustering did not improve with adding stylistic features. 
+Using cosine similarity thus would be a good first step in ranking, 
+combined with a more sophisticated way of ranking documents based on 
+similarity.
+
+\begin{enumerate}
+\item \subsection{Conclusion}\label{section:_Toc457563618}
+\end{enumerate}
+Looking back at working on this shared task, it really is a pity that no 
+system was ready for submitting at the time of the deadline. With no 
+submission the opportunity of competing with other teams was gone, 
+making the development and outcome less exciting. Still, the achieved 
+results are not too bad given shape of the final system. The proposed 
+approach with two clustering methods as input and output of a recurrent 
+neural network seemed very promising based on earlier results. This is 
+underlined by the fact that Bagnall's system of this year is based on 
+his submission and suggestions of last year. Unfortunately, the shared 
+task's individual papers are not released yet, so it is not possible to 
+see how Bagnall got his system to work so well, and what steps were 
+missed in our software. His results do show however that it is possible 
+and useful to use recurrent neural networks for author clustering and 
+link ranking, but this cannot be used to answer the research question 
+here. 
+
+The answer to "\,Can a recurrent neural network help traditional 
+clustering algorithms in clustering documents per author?" according to 
+this research is negative, as the approach originally proposed could not 
+be implemented. The resulting neural network did not help at all to 
+inform the clustering or to rank the links in the output. An interesting 
+finding though, is that a K-Means iterative approach for stripping away 
+non-likely pairs is working well. By using this preprocessing step, half 
+of all pairs fed to the neural network could be removed, greatly 
+decreasing processing time. As this time is the biggest downside of the 
+winning team, cutting it back by half would be a great win. 
+
+\newpage
+
+
+\section{Bibliography}\label{section:_Toc457563619}
+1.\ \ \ \ Mikolov, T., et al., \textit{Efficient estimation of word 
+representations in vector space.} arXiv preprint arXiv:1301.3781, 2013.
+
+2.\ \ \ \ Stamatatos, E., et al., \textit{Overview of the Author 
+Identification Task at PAN 2015.}
+
+3.\ \ \ \ Stamatatos, E., et al., \textit{Clustering by Authorship 
+Within and Across Documents.} CEUR Workshop Proceedings, 2016. \textbf{
+Working Notes Papers of the CLEF 2016 Evaluation Labs}.
+
+4.\ \ \ \ Bagnall, D., \textit{Author identification using multi-headed 
+recurrent neural networks.} arXiv preprint arXiv:1506.04891, 2015.
+
+5.\ \ \ \ Comaniciu, D. and P. Meer, \textit{Mean shift: A robust 
+approach toward feature space analysis.} IEEE Transactions on pattern 
+analysis and machine intelligence, 2002. \textbf{24}(5): p. 603-619.
+
+6.\ \ \ \ Holmes, D.I. and R.S. Forsyth, \textit{The Federalist 
+revisited: New directions in authorship attribution.} Literary and 
+Linguistic Computing, 1995. \textbf{10}(2): p. 111-127.
+
+7.\ \ \ \ Berry, D. and E. Sazonov. \textit{Clustering technical 
+documents by stylistic features for authorship analysis}. in \textit{
+SoutheastCon 2015}. 2015. IEEE.
+
+8.\ \ \ \ Hochreiter, S. and J. Schmidhuber, \textit{Long short-term 
+memory.} Neural computation, 1997. \textbf{9}(8): p. 1735-1780.
+
+9.\ \ \ \ Potthast, M., et al. \textit{Improving the Reproducibility of 
+PAN's Shared Tasks}. in \textit{International Conference of the 
+Cross-Language Evaluation Forum for European Languages}. 2014. 
+Springer.
+
+10.\ \ \ \ Rosales-Méndez, H. and Y. Ramírez-Cruz. \textit{CICE-BCubed: 
+A new evaluation measure for overlapping clustering algorithms}. in 
+\textit{Iberoamerican Congress on Pattern Recognition}. 2013. 
+Springer.
+
+
+
+\end{document}
